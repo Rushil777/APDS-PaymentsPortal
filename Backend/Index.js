@@ -242,6 +242,15 @@ app.post('/paymentrequest', async (req, res) => {
   }
 });
 
+// Fetch all outstanding payments
+app.get('/paymentrequest', async (req, res) => {
+  try {
+    const payments = await OutstandingPayments.find();
+    res.status(200).json(payments);
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to fetch payments' });
+  }
+});
 
 
 // Start the server
