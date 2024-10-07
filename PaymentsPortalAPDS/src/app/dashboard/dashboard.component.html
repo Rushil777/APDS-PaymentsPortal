@@ -1,4 +1,4 @@
-Html : <!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -124,17 +124,17 @@ Html : <!DOCTYPE html>
         <div class="popup-form">
             <h2>Make Payment:</h2>
             <label for="idNumber">ID Number</label>
-            <input type="text" id="idNumber" placeholder="ID Number">
+            <input type="idNumber" name="idNumber" [(ngModel)]="completedPayment.idNumber" placeholder="ID Number">
             <label for="recipientName">Recipient Name</label>
-            <input type="text" id="recipientName" placeholder="Recipient Name">
+            <input type="recipientName" name="recipientName"  [(ngModel)]="completedPayment.recipientName" placeholder="Recipient Name">
             <label for="bankName">Bank Name Of Recipient</label>
-            <input type="text" id="bankName" placeholder="Bank Name Of Recipient">
+            <input type="bankname" name="bankName" [(ngModel)]="completedPayment.bankName" placeholder="Bank Name Of Recipient">
             <label for="swiftCode">Recipient Swift Code</label>
-            <input type="text" id="swiftCode" placeholder="Recipient Swift Code">
+            <input type="swiftcode" name="swiftCode" [(ngModel)]="completedPayment.swiftCode" placeholder="Recipient Swift Code">
             <label for="accountNumber">Account Number</label>
-            <input type="text" id="accountNumber" placeholder="Account Number">
+            <input type="accountNumber" name="accountNumber" [(ngModel)]="completedPayment.accountNumber" placeholder="Account Number">
             <label for="currency">Currency</label>
-            <select id="currency">
+            <select type="currency" name="currency" [(ngModel)]="completedPayment.currency">
                 <option value="USD">USD - US Dollar</option>
                 <option value="EUR">EUR - Euro</option>
                 <option value="GBP">GBP - British Pound</option>
@@ -148,87 +148,18 @@ Html : <!DOCTYPE html>
                 <!-- Add more currencies as needed -->
             </select>
             <label for="amount">Amount</label>
-            <input type="number" id="amount" placeholder="Amount">
+            <input type="number" name="amount" [(ngModel)]="completedPayment.amount" placeholder="Amount">
             <label for="recipientReference">Recipient Reference</label>
-            <input type="text" id="recipientReference" placeholder="Recipient Reference">
+            <input type="recipientsReference" name="recipientReference" [(ngModel)]="completedPayment.recipientReference" placeholder="Recipient Reference">
             <label for="ownReference">Own Reference</label>
-            <input type="text" id="ownReference" placeholder="Own Reference">
+            <input type="ownReference" name="ownReference" [(ngModel)]="completedPayment.ownReference" placeholder="Own Reference">
 
             <!-- Centered Submit Button -->
             <div class="submit-button-container">
-                <button type="button" class="submit-btn" onclick="submitForm()">Submit</button>
+                <button type="submit" (click)="paymentsForm()" class="submit-btn" >Submit</button>
             </div>
         </div>
 
-        <!-- Table Container (on the right) -->
-
-        <div class="table-container">
-            
-            <table id="dataTable">
-                <h2>Outstanding Payments:</h2>
-                <thead>
-                    <tr>
-                        <th>Recipient Name</th>
-                        <th>Bank Name</th>
-                        <th>Currency</th>
-                        <th>Amount</th>
-                        <th>Own Reference</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- Data will be populated here -->
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-    <script>
-        async function submitForm() {
-            const idNumber = document.getElementById('idNumber').value;
-            const recipientName = document.getElementById('recipientName').value;
-            const bankName = document.getElementById('bankName').value;
-            const swiftCode = document.getElementById('swiftCode').value;
-            const accountNumber = document.getElementById('accountNumber').value;
-            const currency = document.getElementById('currency').value;
-            const amount = document.getElementById('amount').value;
-            const recipientReference = document.getElementById('recipientReference').value;
-            const ownReference = document.getElementById('ownReference').value;
-            
-            const paymentData = {
-                idNumber,
-                recipientName,
-                recipientBankName: bankName,
-                recipientSwiftCode: swiftCode,
-                recipientAccNumber: accountNumber,
-                currency,
-                amount,
-                recipientReference,
-                ownReference,
-                status: 'Pending', // Assuming status is always "Pending" at first
-                date: new Date()    // Automatically setting current date
-            };
-            
-            try {
-                const response = await fetch('/outstanding-payments', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(paymentData)
-                });
-                const result = await response.json();
-                if (response.ok) {
-                    alert('Payment submitted successfully!');
-                    fetchData(); // Optionally refresh the table after successful submission
-                } else {
-                    alert('Error: ' + result.error);
-                }
-            } catch (error) {
-                alert('Error submitting the payment: ' + error.message);
-            }
-        }
-    </script>
     
 </body>
 
