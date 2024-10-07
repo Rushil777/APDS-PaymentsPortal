@@ -79,6 +79,25 @@ const employeeSchema = new mongoose.Schema({
 });
 const Employee = mongoose.model('Employee', employeeSchema);
 
+//idNumber, recipient name, bank name of recipient, recipient swift code,  recipient account number, 
+//currency, amount, recipient reference, own reference, status, date
+
+const outstandingPaymentSchema = new mongoose.Schema({
+    idNumber: { type: String, required: true},
+    recipientName: { type: String, required: true}, 
+    recipientBankName: { type: String, required: true}, 
+    recipientSwiftCode: { type: String, required: true}, 
+    recipientAccNumber: { type: String, required: true}, 
+    currency: { type: String, required: true}, 
+    amount: { type: String, required: true}, 
+    recipientReference: { type: String, required: true}, 
+    ownReference: { type: String, required: true},
+    status: { type: String, required: true}, 
+    date: {type: Date}
+});
+const OutstandingPayments = mongoose.model('OutstandingPayments', outstandingPaymentSchema); 
+
+
 // Handle employee registration
 app.post('/register-employee', async (req, res) => {
   const { idNumber, password } = req.body;
