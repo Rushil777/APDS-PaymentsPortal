@@ -1,1 +1,53 @@
-<h2 style="padding: 15px; background-color: antiquewhite; color:#7a478d; text-align: center;">Employee Dashboard</h2>
+<style>
+    body{
+        font-family: Arial, sans-serif;
+        margin: 20px;
+    }
+    table{
+        width: 100%;
+        border-collapse: collapse;
+        background-color: #f2f2f2;
+    }
+    table, th, td{
+        border: 1px solid #ddd
+    }
+    th, td{
+        padding: 10px;
+        text-align: left;
+    }
+    th{
+        background-color: #f2f2f2;
+    }
+</style>
+
+<h2 style="padding: 15px; background-color: antiquewhite; color:#7a478d; text-align: center;">
+    Employee Dashboard
+</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>ID Number</th>
+      <th>Bank Name</th>
+      <th>SWIFT Code</th>
+      <th>Currency</th>
+      <th>Amount</th>
+      <th>Date</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let payment of OutstandingPayments">
+      <td>{{ payment.idNumber }}</td>
+      <td>{{ payment.bankName }}</td>
+      <td>{{ payment.swiftCode }}</td>
+      <td>{{ payment.currency }}</td>
+      <td>{{ payment.amount }}</td>
+      <td>{{ payment.date }}</td>
+      <td>
+        <button class="btn btn-success" (click)="verifyPayment(payment._id)" class="btn btn-success">Verify</button>
+        <button class="btn btn-danger" (click)="declinePayment(payment._id)">Decline</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
