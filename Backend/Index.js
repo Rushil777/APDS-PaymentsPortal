@@ -80,9 +80,6 @@ const employeeSchema = new mongoose.Schema({
 });
 const Employee = mongoose.model('Employee', employeeSchema);
 
-//idNumber, recipient name, bank name of recipient, recipient swift code,  recipient account number, 
-//currency, amount, recipient reference, own reference, status, date
-
 const outstandingPaymentSchema = new mongoose.Schema({
     idNumber: { type: String, required: true},
     recipientName: { type: String, required: true}, 
@@ -93,7 +90,7 @@ const outstandingPaymentSchema = new mongoose.Schema({
     amount: { type: String, required: true}, 
     recipientReference: { type: String, required: true}, 
     ownReference: { type: String, required: true},
-    status: { type: String, required: true}, 
+    status: { type: String, enum: ['PENDING', 'VERIFIED'], default: 'PENDING'}, 
     date: {type: Date}
 });
 const OutstandingPayments = mongoose.model('OutstandingPayments', outstandingPaymentSchema); 
@@ -227,7 +224,7 @@ app.post('/login', async (req, res) => {
 });
 
 // Add a new outstanding payment to the database
-app.post('/outstanding-payments', async (req, res) => {
+app.post('/paymentrequest', async (req, res) => {
   console.log('Recieved Payment Submission:', req.body);
   const{idNumber,recipientName,bankName,swiftCode,accountNumber,currency,amount,recipientReference,ownReference}=req.body;
   
