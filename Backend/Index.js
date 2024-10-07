@@ -86,9 +86,9 @@ const Employee = mongoose.model('Employee', employeeSchema);
 const outstandingPaymentSchema = new mongoose.Schema({
     idNumber: { type: String, required: true},
     recipientName: { type: String, required: true}, 
-    recipientBankName: { type: String, required: true}, 
-    recipientSwiftCode: { type: String, required: true}, 
-    recipientAccNumber: { type: String, required: true}, 
+    bankName: { type: String, required: true}, 
+    swiftCode: { type: String, required: true}, 
+    accountNumber: { type: String, required: true}, 
     currency: { type: String, required: true}, 
     amount: { type: String, required: true}, 
     recipientReference: { type: String, required: true}, 
@@ -97,6 +97,8 @@ const outstandingPaymentSchema = new mongoose.Schema({
     date: {type: Date}
 });
 const OutstandingPayments = mongoose.model('OutstandingPayments', outstandingPaymentSchema); 
+
+
 
 
 // Handle employee registration
@@ -226,42 +228,20 @@ app.post('/login', async (req, res) => {
 
 // Add a new outstanding payment to the database
 app.post('/outstanding-payments', async (req, res) => {
-  try {
-      const {
-          idNumber,
-          recipientName,
-          recipientBankName,
-          recipientSwiftCode,
-          recipientAccNumber,
-          currency,
-          amount,
-          recipientReference,
-          ownReference,
-          status,
-          date
-      } = req.body;
-
-      // Create a new outstanding payment document
-      const newPayment = new OutstandingPayments({
-          idNumber,
-          recipientName,
-          recipientBankName,
-          recipientSwiftCode,
-          recipientAccNumber,
-          currency,
-          amount,
-          recipientReference,
-          ownReference,
-          status,
-          date
-      });
-
-      // Save the payment to the database
-      await newPayment.save();
-      res.status(201).json({ message: 'Payment submitted successfully!' });
-  } catch (error) {
-      console.error('Error submitting payment:', error);
-      res.status(500).json({ error: 'Failed to submit payment' });
+  console.log('Recieved Payment Submission:', req.body);
+  const{idNumber,recipientName,bankName,swiftCode,accountNumber,currency,amount,recipientReference,ownReference}=req.body;
+  
+  //check if submission exists 
+  if(!idNumber||!recipientName||!bankName||!swiftCode||!accountNumber||!currency||!amount||!recipientReference||!ownReference){
+    return res.status(400).json({ error:'All Fields are required' })
+  }try{
+   const newPayment = new OutstandingPayments({idNumber,recipientName,bankName,swiftCode,accountNumber,currency,amount,recipientReference,ownReference});
+   await newPayment.save();
+   console.log('Payment Successfully Made:',newPayment);
+   return res.status(201).json({message:'Payment Successfully Made!'});
+  }catch (error){
+    console.error('Error during submission:',error.message || error);
+    return res.status(500).json({error:'Internal Server Error'});
   }
 });
 
