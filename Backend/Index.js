@@ -8,6 +8,7 @@ const bcrypt = require('bcrypt');  // For hashing passwords
 const cors = require('cors'); // To allow requests from Angular
 const app = express();
 const port = 3001; 
+//hello
 
 // Middleware:
 
