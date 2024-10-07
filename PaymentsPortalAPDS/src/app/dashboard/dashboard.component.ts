@@ -1,9 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Component } from '@angular/core';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Router } from 'express';
 
 
 @Component({
@@ -15,7 +15,7 @@ import { Router } from 'express';
 })
 export class DashboardComponent {
   completedPayment: paymentRequestModel=new paymentRequestModel()
-  constructor(private _router: Router, private http:HttpClient,private _snackbar:MatSnackBar){
+  constructor(private http:HttpClient,private _snackbar:MatSnackBar){
  }
 
 
@@ -39,23 +39,22 @@ export class DashboardComponent {
   export class paymentRequestModel{
     idNumber: string;
     recipientName: string;
-    bankname : string;
-    swiftcode: string;
+    bankName : string;
+    swiftCode: string;
     accountNumber: string;
     currency : string;
-    number : string;
-    recipientsReference : string;
+    amount : string;
+    recipientReference : string;
     ownReference : string;
-
     constructor(){
       this.idNumber = "";
       this.recipientName = "";
-      this.bankname="";
-      this.swiftcode="";
+      this.bankName="";
+      this.swiftCode="";
       this.accountNumber="";
       this.currency="";
-      this.number="";
-      this.recipientsReference="";
+      this.amount="";
+      this.recipientReference="";
       this.ownReference="";
     }
 

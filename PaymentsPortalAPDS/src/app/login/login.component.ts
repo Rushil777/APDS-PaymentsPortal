@@ -32,7 +32,7 @@ export class LoginComponent {
       headers: { 'Content-Type': 'application/json' }
     })
       .subscribe(
-        (response: any) => {
+        (_response: any) => {
           this._snackbar.open('User successfully registered', 'Close');
         },
         (error: any) => {

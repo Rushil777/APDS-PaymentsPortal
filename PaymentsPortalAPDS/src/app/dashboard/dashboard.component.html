@@ -11,6 +11,7 @@
         body {
             font-family: Arial, sans-serif;
             margin: 20px;
+            background: linear-gradient(135deg, #7a478d, #000000);
         }
 
         button {
@@ -66,17 +67,18 @@
             overflow-y: auto;
         }
 
-        .popup-form h2 {
+        .popup-form h3 {
             margin-top: 0;
             color: #333;
             text-align: center;
+            font-weight: bold;
         }
 
         .popup-form label {
             display: block;
             margin-bottom: 5px;
             font-size: 14px;
-            color: #333;
+            color: #7a478d;
         }
 
         .popup-form input,
@@ -122,16 +124,14 @@
     <div class="container">
         <!-- Form Container (on the left) -->
         <div class="popup-form">
-            <h2>Make Payment:</h2>
+            <h3>Make Payment:</h3>
             <label for="idNumber">ID Number</label>
             <input type="idNumber" name="idNumber" [(ngModel)]="completedPayment.idNumber" placeholder="ID Number">
             <label for="recipientName">Recipient Name</label>
             <input type="recipientName" name="recipientName"  [(ngModel)]="completedPayment.recipientName" placeholder="Recipient Name">
             <label for="bankName">Bank Name Of Recipient</label>
             <input type="bankname" name="bankName" [(ngModel)]="completedPayment.bankName" placeholder="Bank Name Of Recipient">
-            <label for="swiftCode">Recipient Swift Code</label>
             <input type="swiftcode" name="swiftCode" [(ngModel)]="completedPayment.swiftCode" placeholder="Recipient Swift Code">
-            <label for="accountNumber">Account Number</label>
             <input type="accountNumber" name="accountNumber" [(ngModel)]="completedPayment.accountNumber" placeholder="Account Number">
             <label for="currency">Currency</label>
             <select type="currency" name="currency" [(ngModel)]="completedPayment.currency">
@@ -147,11 +147,9 @@
                 <option value="INR">INR - Indian Rupee</option>
                 <!-- Add more currencies as needed -->
             </select>
-            <label for="amount">Amount</label>
-            <input type="number" name="amount" [(ngModel)]="completedPayment.amount" placeholder="Amount">
-            <label for="recipientReference">Recipient Reference</label>
+            <input type="amount" name="amount" [(ngModel)]="completedPayment.amount" placeholder="Amount">
+            <label for="recipientReference">References</label>
             <input type="recipientsReference" name="recipientReference" [(ngModel)]="completedPayment.recipientReference" placeholder="Recipient Reference">
-            <label for="ownReference">Own Reference</label>
             <input type="ownReference" name="ownReference" [(ngModel)]="completedPayment.ownReference" placeholder="Own Reference">
 
             <!-- Centered Submit Button -->
@@ -159,8 +157,7 @@
                 <button type="submit" (click)="paymentsForm()" class="submit-btn" >Submit</button>
             </div>
         </div>
-
-    
+    </div>
 </body>
 
 </html>
