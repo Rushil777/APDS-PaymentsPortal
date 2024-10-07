@@ -92,10 +92,20 @@ const outstandingPaymentSchema = new mongoose.Schema({
     amount: { type: String, required: true}, 
     recipientReference: { type: String, required: true}, 
     ownReference: { type: String, required: true},
-    status: { type: String, required: true}, 
+    status: { type: String, enum: ['PENDING', 'VERIFIED'], default: 'PENDING'}, 
     date: {type: Date}
 });
 const OutstandingPayments = mongoose.model('OutstandingPayments', outstandingPaymentSchema); 
+
+const completedPayments = new mongoose.Schema({
+    recipientName: { type: String, required: true},
+    recipientBankName: { type: String, required: true}, 
+    currency: { type: String, required: true}, 
+    amount: { type: String, required: true}, 
+    ownReference: { type: String, required: true}, 
+    status: { type: String, enum: ['PENDING', 'VERIFIED']}
+});
+const CompletedPayments = mongoose.model('CompletedPayments', completedPayments) ; 
 
 
 // Handle employee registration
