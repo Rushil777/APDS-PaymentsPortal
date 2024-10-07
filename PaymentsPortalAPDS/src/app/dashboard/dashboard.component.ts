@@ -17,23 +17,9 @@ import { PaymentService } from '../payment.service';
 export class DashboardComponent {
   outstandingPayments: any[] = [];
   completedPayment: paymentRequestModel=new paymentRequestModel()
-  constructor(private http:HttpClient,private _snackbar:MatSnackBar, private paymentService: PaymentService){
+  constructor(private http:HttpClient,private _snackbar:MatSnackBar){
  }
-
- ngOnInit(): void {
-  this.loadOutstandingPayments();
-}
  
-loadOutstandingPayments() {
-  this.paymentService.getOutstandingPayments().subscribe(
-    (payments: any[]) => {
-      this.outstandingPayments = payments;
-    },
-    (error) => {
-      console.error('Error fetching payments:', error);
-    }
-  );
-}
  paymentsForm(){
   this.http.post('https://localhost:3001/paymentrequest', this.completedPayment,
     {headers:{'Content-Type': 'application/json'}
