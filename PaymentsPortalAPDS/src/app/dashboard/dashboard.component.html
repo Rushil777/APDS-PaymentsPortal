@@ -1,69 +1,235 @@
-<h2 style="padding: 15px; background-color: antiquewhite; color:#7a478d; text-align: center;">Dashboard</h2>
+Html : <!DOCTYPE html>
+<html lang="en">
 
-<button type="button" (click)="showPopup()">Submit</button>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <h2 style="padding: 15px; background-color: antiquewhite; color:#7a478d; text-align: center;">Dashboard</h2>
 
-<table id="dataTable">
-    <thead>
-        <tr>
-            <th>Recipient Name</th>
-            <th>Bank Name</th>
-            <th>Currency</th>
-            <th>Amount</th>
-            <th>Own Reference</th>
-            <th>Status</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr *ngFor="let payment of payments">
-            <td>{{ payment.recipientName }}</td>
-            <td>{{ payment.bankName }}</td>
-            <td>{{ payment.currency }}</td>
-            <td>{{ payment.amount }}</td>
-            <td>{{ payment.ownReference }}</td>
-            <td>{{ payment.status }}</td>
-        </tr>
-    </tbody>
-</table>
+    <title>Form with Table and Submission Area</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
 
-<div class="popup-form" [ngStyle]="{'display': isPopupVisible ? 'block' : 'none'}" id="popupForm">
-    <h2>Enter Information</h2>
-    <label for="idNumber">ID Number</label>
-    <input type="text" id="idNumber" [(ngModel)]="formData.idNumber" placeholder="ID Number">
-    
-    <label for="recipientName">Recipient Name</label>
-    <input type="text" id="recipientName" [(ngModel)]="formData.recipientName" placeholder="Recipient Name">
-    
-    <label for="bankName">Bank Name Of Recipient</label>
-    <input type="text" id="bankName" [(ngModel)]="formData.bankName" placeholder="Bank Name Of Recipient">
-    
-    <label for="swiftCode">Recipient Swift Code</label>
-    <input type="text" id="swiftCode" [(ngModel)]="formData.swiftCode" placeholder="Recipient Swift Code">
-    
-    <label for="accountNumber">Account Number</label>
-    <input type="text" id="accountNumber" [(ngModel)]="formData.accountNumber" placeholder="Account Number">
-    
-    <label for="currency">Currency</label>
-    <select id="currency" [(ngModel)]="formData.currency"> 
-        <option value="USD">USD - US Dollar</option>
-        <option value="EUR">EUR - Euro</option>
-        <option value="GBP">GBP - British Pound</option>
-        <option value="ZAR">ZAR - South African Rand</option>
-        <option value="JPY">JPY - Japanese Yen</option>
-        <option value="AUD">AUD - Australian Dollar</option>
-        <option value="CAD">CAD - Canadian Dollar</option>
-        <option value="CHF">CHF - Swiss Franc</option>
-        <option value="CNY">CNY - Chinese Yuan</option>
-        <option value="INR">INR - Indian Rupee</option>
-    </select>
+        button {
+            margin-bottom: 20px;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
 
-    <label for="amount">Amount</label>
-    <input type="number" id="amount" [(ngModel)]="formData.amount" placeholder="Amount">
-    
-    <label for="ownReference">Own Reference</label>
-    <input type="text" id="ownReference" [(ngModel)]="formData.ownReference" placeholder="Own Reference">
-    
-    <div style="display: flex; justify-content: space-between;">
-        <button type="button" class="submit-btn" (click)="submitForm()">Submit</button>
-        <button type="button" class="close-btn" (click)="closePopup()">Close</button>
+        button:hover {
+            background-color: #45a049;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #f2f2f2;
+        }
+
+        table,
+        th,
+        td {
+            border: 1px solid #ddd;
+        }
+
+        th,
+        td {
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        .container {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .popup-form {
+            background-color: #e0e0e0;
+            padding: 20px;
+            border: 1px solid #ccc;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 35%;
+            border-radius: 10px;
+            max-height: 80%;
+            overflow-y: auto;
+        }
+
+        .popup-form h2 {
+            margin-top: 0;
+            color: #333;
+            text-align: center;
+        }
+
+        .popup-form label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 14px;
+            color: #333;
+        }
+
+        .popup-form input,
+        .popup-form select {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .popup-form button {
+            width: calc(50% - 10px);
+            padding: 10px;
+            margin: 5px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .popup-form .submit-btn {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .popup-form button:hover {
+            opacity: 0.9;
+        }
+
+        .table-container {
+            width: 60%;
+        }
+
+        .submit-button-container {
+            display: flex;
+            justify-content: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <!-- Form Container (on the left) -->
+        <div class="popup-form">
+            <h2>Make Payment:</h2>
+            <label for="idNumber">ID Number</label>
+            <input type="text" id="idNumber" placeholder="ID Number">
+            <label for="recipientName">Recipient Name</label>
+            <input type="text" id="recipientName" placeholder="Recipient Name">
+            <label for="bankName">Bank Name Of Recipient</label>
+            <input type="text" id="bankName" placeholder="Bank Name Of Recipient">
+            <label for="swiftCode">Recipient Swift Code</label>
+            <input type="text" id="swiftCode" placeholder="Recipient Swift Code">
+            <label for="accountNumber">Account Number</label>
+            <input type="text" id="accountNumber" placeholder="Account Number">
+            <label for="currency">Currency</label>
+            <select id="currency">
+                <option value="USD">USD - US Dollar</option>
+                <option value="EUR">EUR - Euro</option>
+                <option value="GBP">GBP - British Pound</option>
+                <option value="ZAR">ZAR - South African Rand</option>
+                <option value="JPY">JPY - Japanese Yen</option>
+                <option value="AUD">AUD - Australian Dollar</option>
+                <option value="CAD">CAD - Canadian Dollar</option>
+                <option value="CHF">CHF - Swiss Franc</option>
+                <option value="CNY">CNY - Chinese Yuan</option>
+                <option value="INR">INR - Indian Rupee</option>
+                <!-- Add more currencies as needed -->
+            </select>
+            <label for="amount">Amount</label>
+            <input type="number" id="amount" placeholder="Amount">
+            <label for="recipientReference">Recipient Reference</label>
+            <input type="text" id="recipientReference" placeholder="Recipient Reference">
+            <label for="ownReference">Own Reference</label>
+            <input type="text" id="ownReference" placeholder="Own Reference">
+
+            <!-- Centered Submit Button -->
+            <div class="submit-button-container">
+                <button type="button" class="submit-btn" onclick="submitForm()">Submit</button>
+            </div>
+        </div>
+
+        <!-- Table Container (on the right) -->
+
+        <div class="table-container">
+            
+            <table id="dataTable">
+                <h2>Outstanding Payments:</h2>
+                <thead>
+                    <tr>
+                        <th>Recipient Name</th>
+                        <th>Bank Name</th>
+                        <th>Currency</th>
+                        <th>Amount</th>
+                        <th>Own Reference</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Data will be populated here -->
+                </tbody>
+            </table>
+        </div>
     </div>
-</div>
+
+    <script>
+        async function submitForm() {
+            const idNumber = document.getElementById('idNumber').value;
+            const recipientName = document.getElementById('recipientName').value;
+            const bankName = document.getElementById('bankName').value;
+            const swiftCode = document.getElementById('swiftCode').value;
+            const accountNumber = document.getElementById('accountNumber').value;
+            const currency = document.getElementById('currency').value;
+            const amount = document.getElementById('amount').value;
+            const recipientReference = document.getElementById('recipientReference').value;
+            const ownReference = document.getElementById('ownReference').value;
+            
+            const paymentData = {
+                idNumber,
+                recipientName,
+                recipientBankName: bankName,
+                recipientSwiftCode: swiftCode,
+                recipientAccNumber: accountNumber,
+                currency,
+                amount,
+                recipientReference,
+                ownReference,
+                status: 'Pending', // Assuming status is always "Pending" at first
+                date: new Date()    // Automatically setting current date
+            };
+            
+            try {
+                const response = await fetch('/outstanding-payments', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(paymentData)
+                });
+                const result = await response.json();
+                if (response.ok) {
+                    alert('Payment submitted successfully!');
+                    fetchData(); // Optionally refresh the table after successful submission
+                } else {
+                    alert('Error: ' + result.error);
+                }
+            } catch (error) {
+                alert('Error submitting the payment: ' + error.message);
+            }
+        }
+    </script>
+    
+</body>
+
+</html>
