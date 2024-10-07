@@ -1,1 +1,31 @@
-<h2 style="padding: 15px; background-color: antiquewhite; color:#7a478d; text-align: center;">Employee Dashboard</h2>
+<h2 style="padding: 15px; background-color: antiquewhite; color:#7a478d; text-align: center;">
+    Employee Dashboard
+</h2>
+
+<table border="1" style="width:100%; text-align:center;">
+  <thead>
+    <tr>
+      <th>ID Number</th>
+      <th>Bank Name</th>
+      <th>SWIFT Code</th>
+      <th>Currency</th>
+      <th>Amount</th>
+      <th>Date</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let payment of OutstandingPayments">
+      <td>{{ payment.idNumber }}</td>
+      <td>{{ payment.bankName }}</td>
+      <td>{{ payment.swiftCode }}</td>
+      <td>{{ payment.currency }}</td>
+      <td>{{ payment.amount }}</td>
+      <td>{{ payment.date }}</td>
+      <td>
+        <button (click)="verifyPayment(payment._id)">Verify</button>
+        <button (click)="declinePayment(payment._id)">Decline</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
