@@ -1,189 +1,69 @@
+<h2 style="padding: 15px; background-color: antiquewhite; color:#7a478d; text-align: center;">Dashboard</h2>
 
-               <!DOCTYPE html>
-               <html lang="en">
-               <head>
-               <meta charset="UTF-8">
-                <meta name="viewport" content="width=device-width, initial-scale=1.0">
-               <h2 style="padding: 15px; background-color: antiquewhite; color:#7a478d; text-align: center;">Dashboard</h2>
+<button type="button" (click)="showPopup()">Submit</button>
 
-                   <title>Form with Table and Fancy Pop-up</title>
-                   <style>
-                       body {
-                           font-family: Arial, sans-serif;
-                           margin: 20px;
-                       }
-                       button {
-                           margin-bottom: 20px;
-                           padding: 10px 20px;
-                           background-color: #4CAF50;
-                           color: white;
-                           border: none;
-                           cursor: pointer;
-                           font-size: 16px;
-                       }
-                       button:hover {
-                           background-color: #45a049;
-                       }
-                       table {
-                           width: 100%;
-                           border-collapse: collapse;
-                           background-color: #f2f2f2;
-                       }
-                       table, th, td {
-                           border: 1px solid #ddd;
-                       }
-                       th, td {
-                           padding: 10px;
-                           text-align: left;
-                       }
-                       th {
-                           background-color: #f2f2f2;
-                       }
-                       .popup-form {
-                           display: none;
-                           position: fixed;
-                           top: 50%;
-                           left: 50%;
-                           transform: translate(-50%, -50%);
-                           background-color: #e0e0e0;
-                           padding: 20px;
-                           border: 1px solid #ccc;
-                           box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-                           width: 400px;
-                           border-radius: 10px;
-                           max-height: 80%;
-                           overflow-y: auto;
-                       }
-                       .popup-form h2 {
-                           margin-top: 0;
-                           color: #333;
-                           text-align: center;
-                       }
-                       .popup-form label {
-                           display: block;
-                           margin-bottom: 5px;
-                           font-size: 14px;
-                           color: #333;
-                       }
-                       .popup-form input, .popup-form select {
-                           width: calc(100% - 20px);
-                           padding: 10px;
-                           margin-bottom: 10px;
-                           border: 1px solid #ccc;
-                           border-radius: 5px;
-                           font-size: 16px;
-                       }
-                       .popup-form button {
-                           width: calc(50% - 10px);
-                           padding: 10px;
-                           margin: 5px;
-                           border: none;
-                           border-radius: 5px;
-                           cursor: pointer;
-                       }
-                       .popup-form .submit-btn {
-                           background-color: #4CAF50;
-                           color: white;
-                       }
-                       .popup-form .close-btn {
-                           background-color: #f44336;
-                           color: white;
-                       }
-                       .popup-form button:hover {
-                           opacity: 0.9;
-                       }
-                   </style>
-               </head>
-               <body>
-                <button type="button" onclick="showPopup()">Submit</button>
-                <table id="dataTable">
-                    <thead>
-                        <tr>
-                            <th>Recipient Name</th>
-                            <th>Bank Name</th>
-                            <th>Currency</th>
-                            <th>Amount</th>
-                            <th>Own Reference</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <!-- Data will be populated here -->
-                    </tbody>
-                </table>
-               
-                   <div class="popup-form" id="popupForm">
-                       <h2>Enter Information</h2>
-                       <label for="idNumber">ID Number</label>
-                       <input type="text" id="idNumber" placeholder="ID Number">
-                       <label for="recipientName">Recipient Name</label>
-                       <input type="text" id="recipientName" placeholder="Recipient Name">
-                       <label for="bankName">Bank Name Of Recipient</label>
-                       <input type="text" id="bankName" placeholder="Bank Name Of Recipient">
-                       <label for="swiftCode">Recipient Swift Code</label>
-                       <input type="text" id="swiftCode" placeholder="Recipient Swift Code">
-                       <label for="accountNumber">Account Number</label>
-                       <input type="text" id="accountNumber" placeholder="Account Number">
-                       <label for="currency">Currency</label>
-                       <select id="currency">
-                           <option value="USD">USD - US Dollar</option>
-                           <option value="EUR">EUR - Euro</option>
-                           <option value="GBP">GBP - British Pound</option>
-                           <option value="ZAR">ZAR - South African Rand</option>
-                           <option value="JPY">JPY - Japanese Yen</option>
-                           <option value="AUD">AUD - Australian Dollar</option>
-                           <option value="CAD">CAD - Canadian Dollar</option>
-                           <option value="CHF">CHF - Swiss Franc</option>
-                           <option value="CNY">CNY - Chinese Yuan</option>
-                           <option value="INR">INR - Indian Rupee</option>
-                           <!-- Add more currencies as needed -->
-                       </select>
-                       <label for="amount">Amount</label>
-                       <input type="number" id="amount" placeholder="Amount">
-                       <label for="recipientReference">Recipient Reference</label>
-                       <input type="text" id="recipientReference" placeholder="Recipient Reference">
-                       <label for="ownReference">Own Reference</label>
-                       <input type="text" id="ownReference" placeholder="Own Reference">
-                       <div style="display: flex; justify-content: space-between;">
-                           <button type="button" class="submit-btn" onclick="submitForm()">Submit</button>
-                           <button type="button" class="close-btn" onclick="closePopup()">Close</button>
-                       </div>
-                   </div>
-               
-                   <script>
-                    async function fetchData() {
-                    const response = await fetch('/completed-payments');
-                    const data = await response.json();
-                    const tableBody = document.querySelector('#dataTable tbody');
-                    tableBody.innerHTML = '';
+<table id="dataTable">
+    <thead>
+        <tr>
+            <th>Recipient Name</th>
+            <th>Bank Name</th>
+            <th>Currency</th>
+            <th>Amount</th>
+            <th>Own Reference</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let payment of payments">
+            <td>{{ payment.recipientName }}</td>
+            <td>{{ payment.bankName }}</td>
+            <td>{{ payment.currency }}</td>
+            <td>{{ payment.amount }}</td>
+            <td>{{ payment.ownReference }}</td>
+            <td>{{ payment.status }}</td>
+        </tr>
+    </tbody>
+</table>
 
-                    data.forEach(item => {
-                    const row = document.createElement('tr');
-                    row.innerHTML = `
-                  <td>${item.recipientName}</td>
-                    <td>${item.bankName}</td>
-                    <td>${item.currency}</td>
-                    <td>${item.amount}</td>
-                    <td>${item.ownReference}</td>
-                    <td>${item.status}</td>
-                `;
-                tableBody.appendChild(row);
-            });
-        }
-                       function showPopup() {
-                           document.getElementById('popupForm').style.display = 'block';
-                       }
-               
-                       function closePopup() {
-                           document.getElementById('popupForm').style.display = 'none';
-                       }
-               
-                       function submitForm() {
-                           // Here you can handle the form submission, e.g., send data to the server
-                           alert('Form submitted!');
-                           closePopup();
-                       }
-                   </script>
-               </body>
-               </html>
-               
+<div class="popup-form" [ngStyle]="{'display': isPopupVisible ? 'block' : 'none'}" id="popupForm">
+    <h2>Enter Information</h2>
+    <label for="idNumber">ID Number</label>
+    <input type="text" id="idNumber" [(ngModel)]="formData.idNumber" placeholder="ID Number">
+    
+    <label for="recipientName">Recipient Name</label>
+    <input type="text" id="recipientName" [(ngModel)]="formData.recipientName" placeholder="Recipient Name">
+    
+    <label for="bankName">Bank Name Of Recipient</label>
+    <input type="text" id="bankName" [(ngModel)]="formData.bankName" placeholder="Bank Name Of Recipient">
+    
+    <label for="swiftCode">Recipient Swift Code</label>
+    <input type="text" id="swiftCode" [(ngModel)]="formData.swiftCode" placeholder="Recipient Swift Code">
+    
+    <label for="accountNumber">Account Number</label>
+    <input type="text" id="accountNumber" [(ngModel)]="formData.accountNumber" placeholder="Account Number">
+    
+    <label for="currency">Currency</label>
+    <select id="currency" [(ngModel)]="formData.currency"> 
+        <option value="USD">USD - US Dollar</option>
+        <option value="EUR">EUR - Euro</option>
+        <option value="GBP">GBP - British Pound</option>
+        <option value="ZAR">ZAR - South African Rand</option>
+        <option value="JPY">JPY - Japanese Yen</option>
+        <option value="AUD">AUD - Australian Dollar</option>
+        <option value="CAD">CAD - Canadian Dollar</option>
+        <option value="CHF">CHF - Swiss Franc</option>
+        <option value="CNY">CNY - Chinese Yuan</option>
+        <option value="INR">INR - Indian Rupee</option>
+    </select>
+
+    <label for="amount">Amount</label>
+    <input type="number" id="amount" [(ngModel)]="formData.amount" placeholder="Amount">
+    
+    <label for="ownReference">Own Reference</label>
+    <input type="text" id="ownReference" [(ngModel)]="formData.ownReference" placeholder="Own Reference">
+    
+    <div style="display: flex; justify-content: space-between;">
+        <button type="button" class="submit-btn" (click)="submitForm()">Submit</button>
+        <button type="button" class="close-btn" (click)="closePopup()">Close</button>
+    </div>
+</div>
