@@ -1,9 +1,7 @@
 const express = require('express');
 const app = express();
-const mongoose = require('mongoose');
-const port = 4200;
-
-const User = require('./Auth/User.js') ;
+const port = 3001; 
+//hello
 
 console.log('Hello')
 mongoose.connect('mongodb+srv://mahathorushil59:eWGRCQWc6G9LqvGq@cluster0.zgl7b.mongodb.net/PaymentsPortal?retryWrites=true&w=majority')
