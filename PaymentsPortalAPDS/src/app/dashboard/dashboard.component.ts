@@ -4,6 +4,7 @@ import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { HttpClientModule } from '@angular/common/http';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { PaymentService } from '../payment.service';
 
 
 @Component({
@@ -14,11 +15,25 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent {
+  outstandingPayments: any[] = [];
   completedPayment: paymentRequestModel=new paymentRequestModel()
-  constructor(private http:HttpClient,private _snackbar:MatSnackBar){
+  constructor(private http:HttpClient,private _snackbar:MatSnackBar, private paymentService: PaymentService){
  }
 
-
+ ngOnInit(): void {
+  this.loadOutstandingPayments();
+}
+ 
+loadOutstandingPayments() {
+  this.paymentService.getOutstandingPayments().subscribe(
+    (payments: any[]) => {
+      this.outstandingPayments = payments;
+    },
+    (error) => {
+      console.error('Error fetching payments:', error);
+    }
+  );
+}
  paymentsForm(){
   this.http.post('https://localhost:3001/paymentrequest', this.completedPayment,
     {headers:{'Content-Type': 'application/json'}

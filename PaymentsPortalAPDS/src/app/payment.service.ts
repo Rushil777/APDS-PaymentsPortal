@@ -1,24 +1,26 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PaymentService {
-  private apiUrl = 'https://localhost:3001/api/payments';
-
+  private apiUrl = 'https://localhost:3001/paymentrequest';
   constructor(private http: HttpClient) {}
 
-  getPayments(): Observable<any[]> {
+  getPayments() {
+    return this.http.get<any[]>('/api/payments');
+  }
+
+  verifyPayment(id: string) {
+    return this.http.post(`/api/payments/verify/${id}`, {});  // Verify payment by ID
+  }
+
+  declinePayment(id: string) {
+    return this.http.post(`/api/payments/decline/${id}`, {});  // Decline payment by ID
+  }
+  getOutstandingPayments(): Observable<any[]> {
     return this.http.get<any[]>(this.apiUrl);
-  }
-
-  verifyPayment(id: string): Observable<any> {
-    return this.http.post(`${this.apiUrl}/verify`, { id });
-  }
-
-  declinePayment(id: string): Observable<any> {
-    return this.http.post(`${this.apiUrl}/decline`, { id });
   }
 }
