@@ -224,6 +224,47 @@ app.post('/login', async (req, res) => {
   }
 });
 
+// Add a new outstanding payment to the database
+app.post('/outstanding-payments', async (req, res) => {
+  try {
+      const {
+          idNumber,
+          recipientName,
+          recipientBankName,
+          recipientSwiftCode,
+          recipientAccNumber,
+          currency,
+          amount,
+          recipientReference,
+          ownReference,
+          status,
+          date
+      } = req.body;
+
+      // Create a new outstanding payment document
+      const newPayment = new OutstandingPayments({
+          idNumber,
+          recipientName,
+          recipientBankName,
+          recipientSwiftCode,
+          recipientAccNumber,
+          currency,
+          amount,
+          recipientReference,
+          ownReference,
+          status,
+          date
+      });
+
+      // Save the payment to the database
+      await newPayment.save();
+      res.status(201).json({ message: 'Payment submitted successfully!' });
+  } catch (error) {
+      console.error('Error submitting payment:', error);
+      res.status(500).json({ error: 'Failed to submit payment' });
+  }
+});
+
 
 
 // Start the server
