@@ -1,20 +1,21 @@
-import { PaymentService } from '../payment.service';
 import { Component, Inject, PLATFORM_ID, OnInit } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
+import { PaymentService } from '../payment.service';
+import { CommonModule } from '@angular/common'; // Import CommonModule
 
 @Component({
   selector: 'app-employee-dashboard',
   standalone: true,
-  imports: [],
+  imports: [CommonModule], // Add CommonModule to imports
   templateUrl: './employee-dashboard.component.html',
-  styleUrl: './employee-dashboard.component.css'
+  styleUrls: ['./employee-dashboard.component.css']
 })
 export class EmployeeDashboardComponent implements OnInit {
   payments: any[] = [];
 
   constructor(
     private paymentService: PaymentService,
-    @Inject(PLATFORM_ID) private platformId: any // Inject PLATFORM_ID to detect the platform
+    @Inject(PLATFORM_ID) private platformId: any
   ) {}
 
   ngOnInit(): void {
@@ -22,7 +23,6 @@ export class EmployeeDashboardComponent implements OnInit {
   }
 
   verifyPayment(id: string) {
-    // Ensure the window.confirm only runs in browser environment
     if (isPlatformBrowser(this.platformId)) {
       const confirmVerify = window.confirm('Are you sure you want to verify this payment?');
       if (confirmVerify) {
@@ -35,7 +35,6 @@ export class EmployeeDashboardComponent implements OnInit {
   }
 
   declinePayment(id: string) {
-    // Ensure the window.confirm only runs in browser environment
     if (isPlatformBrowser(this.platformId)) {
       const confirmDecline = window.confirm('Are you sure you want to decline this payment?');
       if (confirmDecline) {
@@ -47,7 +46,6 @@ export class EmployeeDashboardComponent implements OnInit {
     }
   }
 
-  // Helper method to reload the list after actions
   loadPayments() {
     this.paymentService.getPayments().subscribe((data: any[]) => {
       this.payments = data;
