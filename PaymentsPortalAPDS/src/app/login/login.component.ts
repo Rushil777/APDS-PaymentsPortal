@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
   standalone: true,
   imports: [FormsModule, CommonModule, HttpClientModule],
   templateUrl: './login.component.html',
-  styleUrl: './login.component.css'
+  styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
 
@@ -28,7 +28,7 @@ export class LoginComponent {
 
   registerForm()
   {
-    this.http.post('http://localhost:3001/register', this.registerObj, {
+    this.http.post('https://localhost:3001/register', this.registerObj, {
       headers: { 'Content-Type': 'application/json' }
     })
       .subscribe(
@@ -42,23 +42,32 @@ export class LoginComponent {
       );
   }
   loginForm(){
-    this.http.post('http://localhost:3001/login', this.loginObj)  // Adjust the URL according to your backend
+    this.http.post('https://localhost:3001/login', this.loginObj, {
+      headers: { 'Content-Type': 'application/json' }
+    })
       .subscribe(
         (response: any) => {
           if (response.success) {
             this._snackbar.open('Login Successful', 'Close');
-            localStorage.setItem('loggedUser', JSON.stringify(response.user));  // Store the logged-in user's data
-            this._router.navigateByUrl('/dashboard');  // Navigate to dashboard after successful login
+            localStorage.setItem('loggedUser', JSON.stringify(response.token));
+  
+            // Check user role and redirect accordingly
+            if (response.role === 'user') {
+              this._router.navigateByUrl('/dashboard');
+            } else if (response.role === 'employee') {
+              this._router.navigateByUrl('/employee-dashboard');
+            }
           } else {
             this._snackbar.open('ID Number or Password is incorrect', 'Close');
           }
         },
         (error: any) => {
-          console.error('Error during login:', error);
+          console.error('Error during login', error);
           this._snackbar.open('Error logging in', 'Close');
         }
       );
   }
+  
 }
 export class registerModel{
   name:string;
