@@ -15,12 +15,14 @@ app.use(bodyparser.json());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use(cors({
-  origin: 'http://localhost:4200',  
-  methods: ['GET', 'POST'],         
-  allowedHeaders: ['Content-Type'], 
-  credentials: true                 
-}));
+// app.use(cors({
+//   origin: 'http://localhost:4200',  
+//   methods: ['GET', 'POST'],         
+//   allowedHeaders: ['Content-Type'], 
+//   credentials: true                 
+// }));
+
+app.use(cors());
 
  //Prevent clickjacking
 app.use(helmet.frameguard({ action: 'DENY' }));
@@ -80,7 +82,6 @@ const employeeSchema = new mongoose.Schema({
 });
 const Employee = mongoose.model('Employee', employeeSchema);
 
-//Define the Payment model
 const outstandingPaymentSchema = new mongoose.Schema({
     idNumber: { type: String, required: true},
     recipientName: { type: String, required: true}, 
@@ -95,6 +96,43 @@ const outstandingPaymentSchema = new mongoose.Schema({
     date: {type: Date}
 });
 const OutstandingPayments = mongoose.model('OutstandingPayments', outstandingPaymentSchema); 
+
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  next();
+})
+
+
+app.get('/payment-entries', async (req, res) => {
+  try {
+    const paymentEntries = await OutstandingPayments.find();
+    res.json({ paymentEntries });
+  } catch (error) {
+    console.error('Error fetching entries:', error);
+    res.status(500).json({ error: 'Error fetching entries' });
+  }
+});
+
+app.put('/payment-entries/:id', (req, res) => {
+  const { id } = req.params; // MongoDB _id
+  const { status } = req.body;
+
+  OutstandingPayments.findByIdAndUpdate(id, { status }, { new: true })
+    .then((updatedEntry) => {
+      if (!updatedEntry) {
+        return res.status(404).send('Payment entry not found');
+      }
+      res.json({ paymentEntry: updatedEntry });
+    })
+    .catch((error) => {
+      console.error('Error updating payment entry:', error);
+      res.status(500).send('Internal Server Error');
+    });
+});
+
+
 
 // Handle employee registration
 app.post('/register-employee', async (req, res) => {
@@ -227,33 +265,16 @@ app.post('/outstanding-payment', async (req, res) => {
   console.log(`Received Payment Submission:`, req.body);
   const { idNumber, recipientName, bankName, swiftCode, accountNumber, currency, amount, recipientReference, ownReference } = req.body;
 
-  //Input validation (whitelisting) using RegEx Patterns
- const idNumberPattern = /^\d{6,13}$/; 
- const bankNamePattern = /^[a-zA-Z]{1,30}$/; 
- const accNumberPattern = /^\d{8,16}$/;
- const amountPattern = /^\d{1,1000000}$/;
-  //Validate the input against the whitelisted patterns
- if (!idNumberPattern.test(idNumber)) {
-  return res.status(400).json({ error: 'Invalid ID number. Must be 6-13 digits.' });
-}
-if (!bankNamePattern.test(bankName)) {
-  return res.status(400).json({ error: 'Invalid name. Must be 1-30 alphabetic characters. (No Numbers)' });
-}
-if (!accNumberPattern.test(accountNumber)) {
-  return res.status(400).json({ error: 'Invalid account number. Must be 8-16 digits.' });
-}
-if (!amountPattern.test(amount)) {
-  return res.status(400).json({ error: 'Invalid amount. Must be in numerical format' });
-}
-
-
   if (!idNumber || !recipientName || !bankName || !swiftCode || !accountNumber || !currency || !amount || !recipientReference || !ownReference) {
       return res.status(400).json({ error: `All Fields are required` });
   }
   try {
-      const newPayment = new OutstandingPayments({ idNumber, recipientName, bankName, swiftCode, accountNumber, currency, amount, recipientReference, ownReference });
-      await newPayment.save();
-      console.log(`Payment Successfully Made:`, newPayment);
+      const paymentEntry = new OutstandingPayments({idNumber: req.body.idNumber, recipientName: req.body.recipientName, bankName: req.body.bankName, 
+        swiftCode: req.body.swiftCode, accountNumber: req.body.accountNumber, currency: req.body.currency, amount: req.body.amount, 
+        recipientReference: req.body.recipientReference, ownReference: req.body.ownReference, status: "PENDING"})
+      paymentEntry.save();
+      console.log(paymentEntry);  
+      console.log(`Payment Successfully Made:`, paymentEntry);
       return res.status(201).json({ message: `Payment Successfully Made!` });
   } catch (error) {
       console.error(`Error during submission: `, error.message || error);
@@ -270,18 +291,6 @@ app.get('/payments', async (req, res) => {
     res.status(500).send('Server Error');
   }
 });
-
-// app.get('/payment-entries', (req, res, next) =>{
-//   OutstandingPayments.find()
-//   .then(() => {
-//     res.json({'paymentEntries': paymentEntries})
-//   })
-//   .catch(()=>{
-//     console.log('Error fetching entries')
-//   })
-  
-// })
-
 
 // Start the server
 const httpsServer = https.createServer(credentials, app);
