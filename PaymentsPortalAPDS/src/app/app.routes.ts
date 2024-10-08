@@ -32,7 +32,7 @@ export const routes: Routes = [
         children:
         [
             {
-                path: 'employee',
+                path: 'employee-dashboard',
                 component: EmployeeDashboardComponent
             }
         ]
