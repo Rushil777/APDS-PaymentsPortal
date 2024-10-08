@@ -3,7 +3,6 @@ import { LoginComponent } from './login/login.component';
 import { LayoutComponent } from './Pages/layout/layout.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { EmployeeDashboardComponent } from './employee-dashboard/employee-dashboard.component';
-import { DiaryComponent } from './diary/diary.component';
 
 export const routes: Routes = [
 
