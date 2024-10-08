@@ -8,7 +8,6 @@ const bcrypt = require('bcrypt');  // For hashing passwords
 const cors = require('cors'); // To allow requests from Angular
 const app = express();
 const port = 3001; 
-//hello
 
 // Middleware:
 
@@ -224,31 +223,21 @@ app.post('/login', async (req, res) => {
 });
 
 // Add a new outstanding payment to the database
-app.post('/paymentrequest', async (req, res) => {
-  console.log('Recieved Payment Submission:', req.body);
-  const{idNumber,recipientName,bankName,swiftCode,accountNumber,currency,amount,recipientReference,ownReference}=req.body;
-  
-  //check if submission exists 
-  if(!idNumber||!recipientName||!bankName||!swiftCode||!accountNumber||!currency||!amount||!recipientReference||!ownReference){
-    return res.status(400).json({ error:'All Fields are required' })
-  }try{
-   const newPayment = new OutstandingPayments({idNumber,recipientName,bankName,swiftCode,accountNumber,currency,amount,recipientReference,ownReference});
-   await newPayment.save();
-   console.log('Payment Successfully Made:',newPayment);
-   return res.status(201).json({message:'Payment Successfully Made!'});
-  }catch (error){
-    console.error('Error during submission:',error.message || error);
-    return res.status(500).json({error:'Internal Server Error'});
-  }
-});
+app.post('/outstanding-payment', async (req, res) => {
+  console.log(`Received Payment Submission:`, req.body);
+  const { idNumber, recipientName, bankName, swiftCode, accountNumber, currency, amount, recipientReference, ownReference } = req.body;
 
-// Fetch all outstanding payments
-app.get('/paymentrequest', async (req, res) => {
+  if (!idNumber || !recipientName || !bankName || !swiftCode || !accountNumber || !currency || !amount || !recipientReference || !ownReference) {
+      return res.status(400).json({ error: `All Fields are required` });
+  }
   try {
-    const payments = await OutstandingPayments.find();
-    res.status(200).json(payments);
+      const newPayment = new OutstandingPayments({ idNumber, recipientName, bankName, swiftCode, accountNumber, currency, amount, recipientReference, ownReference });
+      await newPayment.save();
+      console.log(`Payment Successfully Made:`, newPayment);
+      return res.status(201).json({ message: `Payment Successfully Made!` });
   } catch (error) {
-    res.status(500).json({ error: 'Failed to fetch payments' });
+      console.error(`Error during submission: `, error.message || error);
+      return res.status(500).json({ error: `Internal Server Error ` });
   }
 });
 

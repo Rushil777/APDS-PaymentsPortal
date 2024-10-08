@@ -21,11 +21,12 @@ export class DashboardComponent {
  }
  
  paymentsForm(){
-  this.http.post('https://localhost:3001/paymentrequest', this.completedPayment,
-    {headers:{'Content-Type': 'application/json'}
+  console.log('Payment form submitted:', this.completedPayment); // Debugging line
+  this.http.post('https://localhost:3001/outstanding-payment', this.completedPayment, {
+    headers:{'Content-Type': 'application/json'}
   })
   .subscribe(
-    (response:any)=>{
+    (_response:any)=>{
       this._snackbar.open('Payment Request Submitted','Close');
     },
     (error:any)=>{

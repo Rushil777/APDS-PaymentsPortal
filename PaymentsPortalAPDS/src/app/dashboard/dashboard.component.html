@@ -126,15 +126,15 @@
         <div class="popup-form">
             <h3>Make Payment:</h3>
             <label for="idNumber">ID Number</label>
-            <input type="idNumber" name="idNumber" [(ngModel)]="completedPayment.idNumber" placeholder="ID Number">
+            <input type="text" name="idNumber" [(ngModel)]="completedPayment.idNumber" placeholder="ID Number">
             <label for="recipientName">Recipient Name</label>
-            <input type="recipientName" name="recipientName"  [(ngModel)]="completedPayment.recipientName" placeholder="Recipient Name">
+            <input type="text" name="recipientName"  [(ngModel)]="completedPayment.recipientName" placeholder="Recipient Name">
             <label for="bankName">Bank Name Of Recipient</label>
-            <input type="bankname" name="bankName" [(ngModel)]="completedPayment.bankName" placeholder="Bank Name Of Recipient">
+            <input type="text" name="bankName" [(ngModel)]="completedPayment.bankName" placeholder="Bank Name Of Recipient">
             <input type="swiftcode" name="swiftCode" [(ngModel)]="completedPayment.swiftCode" placeholder="Recipient Swift Code">
-            <input type="accountNumber" name="accountNumber" [(ngModel)]="completedPayment.accountNumber" placeholder="Account Number">
+            <input type="text" name="accountNumber" [(ngModel)]="completedPayment.accountNumber" placeholder="Account Number">
             <label for="currency">Currency</label>
-            <select type="currency" name="currency" [(ngModel)]="completedPayment.currency">
+            <select type="text" name="currency" [(ngModel)]="completedPayment.currency">
                 <option value="USD">USD - US Dollar</option>
                 <option value="EUR">EUR - Euro</option>
                 <option value="GBP">GBP - British Pound</option>
@@ -147,10 +147,10 @@
                 <option value="INR">INR - Indian Rupee</option>
                 <!-- Add more currencies as needed -->
             </select>
-            <input type="amount" name="amount" [(ngModel)]="completedPayment.amount" placeholder="Amount">
+            <input type="text" name="amount" [(ngModel)]="completedPayment.amount" placeholder="Amount">
             <label for="recipientReference">References</label>
-            <input type="recipientsReference" name="recipientReference" [(ngModel)]="completedPayment.recipientReference" placeholder="Recipient Reference">
-            <input type="ownReference" name="ownReference" [(ngModel)]="completedPayment.ownReference" placeholder="Own Reference">
+            <input type="text" name="recipientReference" [(ngModel)]="completedPayment.recipientReference" placeholder="Recipient Reference">
+            <input type="text" name="ownReference" [(ngModel)]="completedPayment.ownReference" placeholder="Own Reference">
 
             <!-- Centered Submit Button -->
             <div class="submit-button-container">
