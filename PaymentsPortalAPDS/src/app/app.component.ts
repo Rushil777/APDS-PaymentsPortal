@@ -7,15 +7,11 @@ import { RouterModule } from '@angular/router';
 @Component({ 
   selector: 'app-root',
   templateUrl: './app.component.html',
-<<<<<<< HEAD
-  styleUrls: ['./app.component.css'],
-  standalone: true,  // Marking as a standalone component
-  imports: [HeaderComponent, DiaryComponent, RouterModule],  // Importing standalone components
-=======
-  styleUrls: ['./app.component.css'] 
-
->>>>>>> origin/main
+  styleUrls: ['./app.component.css'], 
+  standalone: true,
+  imports:[HeaderComponent, DiaryComponent, RouterModule]
 })
 
 export class AppComponent {
+  title = 'PaymentsPortalAPDS';
 }

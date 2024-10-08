@@ -34,7 +34,7 @@ export const routes: Routes = [
         [
             {
                 path: 'employee',
-                component: DiaryComponent
+                component: EmployeeDashboardComponent
             }
         ]
     }

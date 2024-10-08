@@ -3,7 +3,7 @@ import { PaymentEntry } from "./payment-entry.model";
 import { map, Subject } from "rxjs";
 import { HttpClient } from "@angular/common/http";
 
-@Injectable({providedIn:"root"})
+@Injectable({providedIn:'root'})
 export class PaymentDataService{
 
     constructor(private http: HttpClient){}

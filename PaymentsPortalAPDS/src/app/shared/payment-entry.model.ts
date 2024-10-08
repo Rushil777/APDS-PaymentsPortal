@@ -1,5 +1,6 @@
 export class PaymentEntry{
     constructor(
+        public _id: Number,
         public idNumber: String, 
         public recepientName: String,
         public bankName: String, 
