@@ -1,0 +1,30 @@
+<h2>Employee Dashboard</h2>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>ID Number</th>
+            <th>Bank Name</th>
+            <th>SWIFT Code</th>
+            <th>Currency</th>
+            <th>Amount</th>
+            <th>Date</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngfor="let paymentEntry of paymentEntries">
+            <td>{{paymentEntry.idNumber}}</td>
+            <td>{{paymentEntry.bankName}}</td>
+            <td>{{paymentEntry.swiftCode}}</td>
+            <td>{{paymentEntry.currency}}</td>
+            <td>{{paymentEntry.amount}}</td>
+            <td>{{paymentEntry.date}}</td>
+            <td>{{paymentEntry.status}}</td>
+            <td>
+                <button (click)="onVerify(i)" class="btn btn-success">Verify</button>
+                <button (click)="onEdit(i)" class="btn btn-danger">Decline</button>
+            </td>
+        </tr>
+    </tbody>
+</table>

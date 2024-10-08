@@ -8,9 +8,10 @@ const bcrypt = require('bcrypt');  // For hashing passwords
 const cors = require('cors'); // To allow requests from Angular
 const app = express();
 const port = 3001; 
+const bodyparser = require('body-parser')
 
 // Middleware:
-
+app.use(bodyparser.json());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -94,11 +95,27 @@ const outstandingPaymentSchema = new mongoose.Schema({
 });
 const OutstandingPayments = mongoose.model('OutstandingPayments', outstandingPaymentSchema); 
 
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  next();
+})
 
-
+app.get('/payment-entries', (req, res, next) =>{
+  OutstandingPayments.find()
+  .then(() => {
+    res.json({'paymentEntries': paymentEntries})
+  })
+  .catch(()=>{
+    console.log('Error fetching entries')
+  })
+  
+})
 
 // Handle employee registration
 app.post('/register-employee', async (req, res) => {
+  outstandingPaymentSchema
   const { idNumber, password } = req.body;
  
   try {
@@ -225,15 +242,14 @@ app.post('/login', async (req, res) => {
 // Add a new outstanding payment to the database
 app.post('/outstanding-payment', async (req, res) => {
   console.log(`Received Payment Submission:`, req.body);
-  const { idNumber, recipientName, bankName, swiftCode, accountNumber, currency, amount, recipientReference, ownReference } = req.body;
-
   if (!idNumber || !recipientName || !bankName || !swiftCode || !accountNumber || !currency || !amount || !recipientReference || !ownReference) {
       return res.status(400).json({ error: `All Fields are required` });
   }
   try {
-      const newPayment = new OutstandingPayments({ idNumber, recipientName, bankName, swiftCode, accountNumber, currency, amount, recipientReference, ownReference });
-      await newPayment.save();
-      console.log(`Payment Successfully Made:`, newPayment);
+      const paymentEntry = new OutstandingPayments({idNumber: req.body.idNumber, recipientName: req.body.recipientName, bankName: req.body.bankName, swiftCode: req.body.swiftCode, accountNumber: req.body.accountNumber, currency: req.body.currency, amount: req.body.amount, recipientReference: req.body.recipientReference, ownReference: req.body.ownReference, status: "Pending"})
+      paymentEntry.save();
+      console.log(paymentEntry);  
+      console.log(`Payment Successfully Made:`, paymentEntry);
       return res.status(201).json({ message: `Payment Successfully Made!` });
   } catch (error) {
       console.error(`Error during submission: `, error.message || error);
