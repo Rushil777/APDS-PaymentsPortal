@@ -242,6 +242,31 @@ app.post('/login', async (req, res) => {
 // Add a new outstanding payment to the database
 app.post('/outstanding-payment', async (req, res) => {
   console.log(`Received Payment Submission:`, req.body);
+<<<<<<< HEAD
+=======
+  const { idNumber, recipientName, bankName, swiftCode, accountNumber, currency, amount, recipientReference, ownReference } = req.body;
+
+  //Input validation (whitelisting) using RegEx Patterns
+ const idNumberPattern = /^\d{6,13}$/; 
+ const bankNamePattern = /^[a-zA-Z]{1,30}$/; 
+ const accNumberPattern = /^\d{8,16}$/;
+ const amountPattern = /^\d{1,1000000}$/;
+  //Validate the input against the whitelisted patterns
+ if (!idNumberPattern.test(idNumber)) {
+  return res.status(400).json({ error: 'Invalid ID number. Must be 6-13 digits.' });
+}
+if (!bankNamePattern.test(bankName)) {
+  return res.status(400).json({ error: 'Invalid name. Must be 1-30 alphabetic characters. (No Numbers)' });
+}
+if (!accNumberPattern.test(accountNumber)) {
+  return res.status(400).json({ error: 'Invalid account number. Must be 8-16 digits.' });
+}
+if (!amountPattern.test(amount)) {
+  return res.status(400).json({ error: 'Invalid amount. Must be in numerical format' });
+}
+
+
+>>>>>>> origin/main
   if (!idNumber || !recipientName || !bankName || !swiftCode || !accountNumber || !currency || !amount || !recipientReference || !ownReference) {
       return res.status(400).json({ error: `All Fields are required` });
   }
@@ -257,6 +282,15 @@ app.post('/outstanding-payment', async (req, res) => {
   }
 });
 
+//Getting data from database
+app.get('/payments', async (req, res) => {
+  try {
+    const outstandingPayment = await OutstandingPayments.find(); // Now using async/await
+    res.json(outstandingPayment); // Send the data as JSON
+  } catch (err) {
+    res.status(500).send('Server Error');
+  }
+});
 
 // Start the server
 const httpsServer = https.createServer(credentials, app);
