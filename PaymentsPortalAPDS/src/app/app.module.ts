@@ -4,12 +4,15 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
 import { provideHttpClient, withFetch } from '@angular/common/http';
+import { EmployeeDashboardComponent } from './employee-dashboard/employee-dashboard.component';
+import { PaymentService } from './payment.service';
 
 
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    EmployeeDashboardComponent
   ],
   imports: [
     BrowserModule,
