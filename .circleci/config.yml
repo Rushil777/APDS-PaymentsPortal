@@ -45,5 +45,5 @@ jobs:
 workflows:
   say-hello-workflow:
     jobs:
-      - say-hello
-      - sonarqube
+      - sonarqube:
+         context: SonarCloud
