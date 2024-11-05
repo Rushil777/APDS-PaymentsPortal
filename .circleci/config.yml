@@ -4,15 +4,15 @@ jobs:
   sonarqube:
     working_directory: ~/build
     docker:
-      - image: cimg/python:3.8  # Use a Debian-based image
+      - image: cimg/python:3.8  # Debian-based image with apt-get support
     resource_class: small
     steps:
       - checkout
       - run:
           name: Update and install dependencies
           command: |
-            apt-get update && \
-            apt-get install -y openssh-client git curl wget unzip
+            sudo apt-get update && \
+            sudo apt-get install -y openssh-client git curl wget unzip
       - run:
           name: Install SonarQube Scanner
           command: |
