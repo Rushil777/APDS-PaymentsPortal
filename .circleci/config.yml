@@ -18,15 +18,15 @@ jobs:
           name: "Say hello"
           command: "echo Hello, World!"
 
- onarqube:
+  sonarqube:
     working_directory: ~/build
     docker:
       - image: sonarsource/sonar-scanner-cli
     resource_class: small
     steps:
-      #- run: apk update
-      #- run: apk upgrade
-      #- run: apk --no-cache add --update openssh git curl
+      - run: apk update
+      - run: apk upgrade
+      - run: apk --no-cache add --update openssh git curl
       - checkout
       - run: find .
       - attach_workspace:
@@ -40,17 +40,14 @@ jobs:
           -Dsonar.organization="$SONAR_ORG" \
           -Dsonar.host.url=https://sonarcloud.io \
           -Dsonar.exclusions="**/android/**,**/ios/**" \
-          -Dsonar.token="$SONAR_TOKEN" \
+          -Dsonar.login="$SONAR_TOKEN" \
           -Dsonar.branch.name="$SONAR_BRANCH" \
           -Dsonar.sources="."
-
-# Orchestrate jobs using workflows
-# See: https://circleci.com/docs/configuration-reference/#workflows
 
 # Orchestrate jobs using workflows
 # See: https://circleci.com/docs/configuration-reference/#workflows
 workflows:
   say-hello-workflow:
     jobs:
-      - sonarqube:
-         context: SonarCloud
+      - say-hello
+      - sonarqube
