@@ -12,7 +12,7 @@ jobs:
           name: Update and install dependencies
           command: |
             sudo apt-get update && \
-            sudo apt-get install -y openssh-client git curl wget unzip
+            sudo apt-get install -y openssh-client git curl wget unzip openjdk-11-jdk  # Install Java
       - run:
           name: Install SonarQube Scanner
           command: |
@@ -33,7 +33,8 @@ jobs:
               -Dsonar.exclusions="**/android/**,**/ios/**" \
               -Dsonar.login="$SONAR_TOKEN" \
               -Dsonar.branch.name="$SONAR_BRANCH" \
-              -Dsonar.sources="."
+              -Dsonar.sources="." \
+              -X   # Enable debug logging for detailed error output
 
 workflows:
   sonarqube-workflow:
