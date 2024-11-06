@@ -13,15 +13,10 @@ jobs:
   sonarqube:
     working_directory: ~/build
     docker:
-      - image: cimg/python:3.9  # Image with Python and basic utilities
+      - image: circleci/python:3.9  # Updated to CircleCI's official image with necessary utilities
     resource_class: small
     steps:
       - checkout
-      - run:
-          name: "Install Required Packages"
-          command: |
-            sudo apt-get update
-            sudo apt-get install -y curl unzip
       - run:
           name: "Install Sonar Scanner"
           command: |
