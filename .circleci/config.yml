@@ -13,17 +13,22 @@ jobs:
   sonarqube:
     working_directory: ~/build
     docker:
-      - image: circleci/python:3.9  # Updated to CircleCI's official image with necessary utilities
+      - image: circleci/python:3.9  # This image comes with necessary tools
     resource_class: small
     steps:
       - checkout
       - run:
           name: "Install Sonar Scanner"
           command: |
+            echo "Starting Sonar Scanner Installation..."
             curl -L -o sonar-scanner.zip https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.6.2.2472-linux.zip
+            if [ $? -ne 0 ]; then echo "curl failed!"; exit 1; fi  # Check if curl succeeds
+            echo "Download complete, unzipping..."
             unzip sonar-scanner.zip -d /usr/local
+            if [ $? -ne 0 ]; then echo "unzip failed!"; exit 1; fi  # Check if unzip succeeds
             echo 'export PATH=$PATH:/usr/local/sonar-scanner-4.6.2.2472-linux/bin' >> $BASH_ENV
-      - run: find .  # Verify `find` works
+            echo "Sonar Scanner installation completed."
+      - run: find .  # Verify `find` works, useful for debugging
       - attach_workspace:
           at: ~/workspace
       - run:
