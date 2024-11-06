@@ -11,11 +11,15 @@ jobs:
           command: "echo Hello, World!"
 
   sonarqube:
-    working_directory: ~/build
+    working_directory: ~/build  # Set the correct working directory
     docker:
       - image: alpine:latest  # Using the basic Alpine image for setup
     resource_class: small
     steps:
+      - run:
+          name: "Clean working directory"
+          command: |
+            rm -rf ~/build/*  # Ensure the directory is empty before checkout
       - run:
           name: "Install dependencies"
           command: |
