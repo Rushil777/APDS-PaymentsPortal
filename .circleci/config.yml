@@ -1,9 +1,17 @@
+# Use the latest 2.1 version of CircleCI pipeline process engine.
+# See: https://circleci.com/docs/configuration-reference
 version: 2.1
 
+# Define a job to be invoked later in a workflow.
+# See: https://circleci.com/docs/configuration-reference/#jobs
 jobs:
   say-hello:
+    # Specify the execution environment. You can specify an image from Docker Hub or use one of our convenience images from CircleCI's Developer Hub.
+    # See: https://circleci.com/docs/configuration-reference/#executor-job
     docker:
-      - image: cimg/base:current
+      - image: cimg/base:stable
+    # Add steps to the job
+    # See: https://circleci.com/docs/configuration-reference/#steps
     steps:
       - checkout
       - run:
@@ -13,40 +21,31 @@ jobs:
   sonarqube:
     working_directory: ~/build
     docker:
-      - image: circleci/python:3.9  # This image comes with necessary tools
+      - image: sonarsource/sonar-scanner-cli
     resource_class: small
     steps:
+      - run: apk update
+      - run: apk upgrade
+      - run: apk --no-cache add --update openssh git curl
       - checkout
-      - run:
-          name: "Install Sonar Scanner"
-          command: |
-            echo "Starting Sonar Scanner Installation..."
-            curl -L -o sonar-scanner.zip https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.6.2.2472-linux.zip
-            if [ $? -ne 0 ]; then echo "curl failed!"; exit 1; fi  # Check if curl succeeds
-            echo "Download complete, unzipping..."
-            unzip sonar-scanner.zip -d /usr/local
-            if [ $? -ne 0 ]; then echo "unzip failed!"; exit 1; fi  # Check if unzip succeeds
-            echo 'export PATH=$PATH:/usr/local/sonar-scanner-4.6.2.2472-linux/bin' >> $BASH_ENV
-            echo "Sonar Scanner installation completed."
-      - run: find .  # Verify `find` works, useful for debugging
+      - run: find .
       - attach_workspace:
           at: ~/workspace
-      - run:
-          name: "Run Sonar Scanner"
-          command: |
-            source $BASH_ENV  # Load the updated PATH
-            SONAR_BRANCH="${CIRCLE_BRANCH:-master}"
-            echo "Sonar branch value is: $SONAR_BRANCH"
-            echo "Sonar org value is: $SONAR_ORG"
-            sonar-scanner \
-              -Dsonar.projectKey="$SONAR_PROJECT_KEY" \
-              -Dsonar.organization="$SONAR_ORG" \
-              -Dsonar.host.url=https://sonarcloud.io \
-              -Dsonar.exclusions="**/android/**,**/ios/**" \
-              -Dsonar.login="$SONAR_TOKEN" \
-              -Dsonar.branch.name="$SONAR_BRANCH" \
-              -Dsonar.sources="."
+      - run: |
+          SONAR_BRANCH="${CIRCLE_BRANCH:-master}"
+          echo "Sonar branch value is: " $SONAR_BRANCH
+          echo "Sonar org value is : "$SONAR_ORG
+          sonar-scanner \
+          -Dsonar.projectKey="$SONAR_PROJECT_KEY" \
+          -Dsonar.organization="$SONAR_ORG" \
+          -Dsonar.host.url=https://sonarcloud.io \
+          -Dsonar.exclusions="**/android/**,**/ios/**" \
+          -Dsonar.login="$SONAR_TOKEN" \
+          -Dsonar.branch.name="$SONAR_BRANCH" \
+          -Dsonar.sources="."
 
+# Orchestrate jobs using workflows
+# See: https://circleci.com/docs/configuration-reference/#workflows
 workflows:
   say-hello-workflow:
     jobs:
