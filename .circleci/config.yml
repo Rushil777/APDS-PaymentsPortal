@@ -18,9 +18,9 @@ jobs:
     steps:
       - checkout
       - run:
-          name: "Install find"
-          command: "apk add --no-cache findutils"  
-      - run: find .  
+          name: "Install findutils"
+          command: "apt-get update && apt-get install -y findutils"  # Using apt-get to install findutils
+      - run: find .  # This should now work
       - attach_workspace:
           at: ~/workspace
       - run: |
