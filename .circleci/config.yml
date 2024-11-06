@@ -17,6 +17,11 @@ jobs:
     steps:
       - checkout  # Ensures that the repository is checked out to the correct directory
       - run:
+          name: "Install findutils"
+          command: |
+            apk update
+            apk add --no-cache findutils  # Install find command
+      - run:
           name: "Check directory"
           command: |
             echo "Current directory: $(pwd)"  # Display current directory
