@@ -13,13 +13,19 @@ jobs:
   sonarqube:
     working_directory: ~/build
     docker:
-      - image: sonarsource/sonar-scanner-cli  # SonarScanner image, Alpine-based
+      - image: alpine:latest  # Using the basic Alpine image for setup
     resource_class: small
     steps:
       - run:
           name: "Install dependencies"
           command: |
-            apk add --no-cache curl git openssh
+            apk update && apk add --no-cache curl git openssh unzip
+      - run:
+          name: "Download and Install Sonar Scanner"
+          command: |
+            curl -L -o sonar-scanner.zip https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.6.2.2472-linux.zip
+            unzip sonar-scanner.zip -d /usr/local
+            echo 'export PATH=$PATH:/usr/local/sonar-scanner-4.6.2.2472-linux/bin' >> $BASH_ENV
       - checkout
       - run: find .  # Check directory contents
       - attach_workspace:
