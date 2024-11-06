@@ -13,7 +13,7 @@ jobs:
   sonarqube:
     working_directory: ~/build
     docker:
-      - image: cimg/python:3.9  # More comprehensive image with find
+      - image: cimg/python:3.9  # Comprehensive image with find installed
     resource_class: small
     steps:
       - checkout
@@ -23,7 +23,7 @@ jobs:
             curl -L -o sonar-scanner.zip https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.6.2.2472-linux.zip
             unzip sonar-scanner.zip -d /usr/local
             echo 'export PATH=$PATH:/usr/local/sonar-scanner-4.6.2.2472-linux/bin' >> $BASH_ENV
-      - run: find .  # 'find' should now work as expected
+      - run: find .  # Verify `find` works
       - attach_workspace:
           at: ~/workspace
       - run:
