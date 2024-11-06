@@ -12,25 +12,13 @@ jobs:
 
   sonarqube:
     docker:
-      - image: sonarsource/sonar-scanner-cli
+      - image: sonarsource/sonar-scanner-cli  # No need for APK installation
     resource_class: small
     steps:
+      - checkout  # CircleCI will automatically check out your repository
       - run:
-          name: "Clean working directory"
-          command: |
-            rm -rf ~/build/*  # Ensure the directory is empty before checkout
-      - run:
-          name: "Install dependencies"
-          command: |
-            apk update && apk add --no-cache curl git openssh unzip
-      - run:
-          name: "Download and Install Sonar Scanner"
-          command: |
-            curl -L -o sonar-scanner.zip https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.6.2.2472-linux.zip
-            unzip sonar-scanner.zip -d /usr/local
-            echo 'export PATH=$PATH:/usr/local/sonar-scanner-4.6.2.2472-linux/bin' >> $BASH_ENV
-      - checkout  # Checkout the code here, CircleCI will handle it properly
-      - run: find .  # Check directory contents
+          name: "Check directory"
+          command: find .  # This checks the contents of the repo
       - attach_workspace:
           at: ~/workspace
       - run:
