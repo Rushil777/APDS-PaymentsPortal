@@ -12,13 +12,16 @@ jobs:
 
   sonarqube:
     docker:
-      - image: sonarsource/sonar-scanner-cli  # No need for APK installation
+      - image: sonarsource/sonar-scanner-cli
     resource_class: small
     steps:
-      - checkout  # CircleCI will automatically check out your repository
+      - checkout  # Ensures that the repository is checked out to the correct directory
       - run:
           name: "Check directory"
-          command: find .  # This checks the contents of the repo
+          command: |
+            echo "Current directory: $(pwd)"  # Display current directory
+            ls -la  # List contents of the directory for debugging
+            find .  # List all files in the current directory
       - attach_workspace:
           at: ~/workspace
       - run:
