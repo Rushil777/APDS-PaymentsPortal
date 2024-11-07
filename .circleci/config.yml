@@ -15,6 +15,10 @@ jobs:
           command: |
             cd ~/APDS-PaymentsPortal/Backend && npm install  # Install Node.js dependencies from the correct directory
       - run:
+          name: Fix permissions for nodemon
+          command: |
+            chmod +x node_modules/.bin/nodemon  # Make sure nodemon has execute permissions
+      - run:
           name: Run dev server with npx
           command: |
             cd ~/APDS-PaymentsPortal/Backend && npx nodemon  # Use npx to run nodemon without global install
