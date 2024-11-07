@@ -18,20 +18,19 @@ jobs:
             cd ~/APDS-PaymentsPortal/Backend && npm install  # Install Node.js dependencies from the correct directory
 
       - run:
-          name: Install SonarQube Scanner
+          name: Install SonarQube Scanner locally
           command: |
-            sudo npm install -g sonar-scanner  # Install SonarQube scanner globally with sudo
+            npm install sonar-scanner --save-dev  # Install SonarQube scanner locally
 
       - run:
           name: Fix permissions for SonarQube scanner
           command: |
-            sudo chown -R $USER:$USER /usr/local/lib/node_modules/sonar-scanner  # Fix ownership for sonar-scanner
-            sudo chmod +x /usr/local/lib/node_modules/sonar-scanner/bin/sonar-scanner  # Fix permissions for SonarQube scanner
+            chmod +x ./node_modules/.bin/sonar-scanner  # Make sure sonar-scanner has execute permissions
 
       - run:
           name: SonarQube Scan
           command: |
-            sudo sonar-scanner \
+            ./node_modules/.bin/sonar-scanner \
               -Dsonar.projectKey="Rushil777_APDS-PaymentsPortal" \
               -Dsonar.host.url=$SONAR_HOST_URL \
               -Dsonar.login=$SONAR_TOKEN \
