@@ -14,6 +14,7 @@ jobs:
           name: Install dependencies
           command: |
             cd ~/APDS-PaymentsPortal/Backend && npm install  # Install Node.js dependencies from the correct directory
+            cd ~/APDS-PaymentsPortal/Backend && npm rebuild bcrypt --build-from-source  # Rebuild bcrypt
       - run:
           name: Fix permissions for nodemon
           command: |
