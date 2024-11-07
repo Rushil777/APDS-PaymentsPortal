@@ -25,7 +25,7 @@ jobs:
       - run:
           name: Fix permissions for SonarQube scanner
           command: |
-            chmod +x ./node_modules/.bin/sonar-scanner  # Make sure sonar-scanner has execute permissions
+            sudo chmod -R +x ./node_modules/.bin  # Make all binaries in the .bin directory executable, including sonar-scanner
 
       - run:
           name: SonarQube Scan
@@ -39,7 +39,7 @@ jobs:
       - run:
           name: Fix permissions for nodemon
           command: |
-            chmod +x node_modules/.bin/nodemon  # Make sure nodemon has execute permissions
+            sudo chmod +x node_modules/.bin/nodemon  # Make sure nodemon has execute permissions
 
       - run:
           name: Run dev server with npx
