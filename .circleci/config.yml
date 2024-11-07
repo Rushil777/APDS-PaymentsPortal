@@ -18,16 +18,9 @@ jobs:
             cd ~/APDS-PaymentsPortal/Backend && npm install  # Install Node.js dependencies from the correct directory
 
       - run:
-          name: Set permissions for sonar-scanner
+          name: Check if sonar-scanner is installed
           command: |
-            sudo chmod +x ./node_modules/.bin/sonar-scanner  # Ensure sonar-scanner binary is executable
-            ls -l ./node_modules/.bin/sonar-scanner         # Check the permissions for debugging
-
-      - run:
-          name: Fix permissions recursively
-          command: |
-            sudo chmod -R 755 ./node_modules  # Ensure the entire node_modules directory has the right permissions
-            ls -l ./node_modules  # Check directory permissions recursively
+            ls -l ./node_modules/.bin/sonar-scanner  # Ensure sonar-scanner is installed in the bin folder
 
       - run:
           name: Run SonarQube Scan with npx
