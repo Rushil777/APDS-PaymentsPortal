@@ -20,7 +20,7 @@ jobs:
       - run:
           name: Install SonarQube Scanner
           command: |
-            npm install -g sonar-scanner  # Install SonarQube scanner globally
+            sudo npm install -g sonar-scanner  # Install SonarQube scanner globally with sudo
 
       - run:
           name: Run tests with coverage (if using a test framework like Jest)
