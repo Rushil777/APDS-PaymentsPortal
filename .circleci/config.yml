@@ -2,23 +2,26 @@ version: 2.1
 jobs:
   build:
     docker:
-      - image: circleci/node:16  
-    working_directory: ~/APDS-PaymentsPortal/Backend  
+      - image: circleci/node:16  # Node.js Docker image
+    working_directory: ~/APDS-PaymentsPortal/Backend  # Set this to where package.json is located
     steps:
-      - checkout  
+      - checkout:
+          path: ~/APDS-PaymentsPortal  # Explicitly check out to the APDS-PaymentsPortal directory
       - run:
           name: List files to verify checkout
-          command: ls -la
+          command: ls -la ~/APDS-PaymentsPortal/Backend  # Verify that package.json is checked out correctly
       - run:
           name: Install dependencies
-          command: npm install 
+          command: |
+            cd ~/APDS-PaymentsPortal/Backend && npm install  # Install Node.js dependencies from the correct directory
       - run:
           name: Run tests
-          command: npm test  
+          command: |
+            cd ~/APDS-PaymentsPortal/Backend && npm test  # Run tests in the correct directory
       - run:
           name: SonarQube Scan
           command: |
-            sonar-scanner \
+            cd ~/APDS-PaymentsPortal/Backend && sonar-scanner \
               -Dsonar.projectKey="Rushil777_APDS-PaymentsPortal" \
               -Dsonar.host.url=$SONAR_HOST_URL \
               -Dsonar.login=$SONAR_TOKEN
