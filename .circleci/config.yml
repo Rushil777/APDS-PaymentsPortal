@@ -15,9 +15,9 @@ jobs:
           command: |
             cd ~/APDS-PaymentsPortal/Backend && npm install  # Install Node.js dependencies from the correct directory
       - run:
-          name: Run dev
+          name: Run tests
           command: |
-            cd ~/APDS-PaymentsPortal/Backend && npm test  # Run tests in the correct directory
+            cd ~/APDS-PaymentsPortal/Backend && npm dev  # Run tests in the correct directory
       - run:
           name: SonarQube Scan
           command: |
