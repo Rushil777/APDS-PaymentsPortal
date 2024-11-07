@@ -3,7 +3,7 @@ jobs:
   build:
     docker:
       - image: circleci/node:16  
-    working_directory: ~/project
+    working_directory: ~/APDS-PaymentsPortal/Backend  
     steps:
       - checkout  
       - run:
