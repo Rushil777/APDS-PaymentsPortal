@@ -11,16 +11,13 @@ jobs:
           name: List files to verify checkout
           command: ls -la ~/APDS-PaymentsPortal/Backend  # Verify that package.json is checked out correctly
       - run:
-          name: Install nodemon globally
-          command: npm install -g nodemon
-      - run:
           name: Install dependencies
           command: |
             cd ~/APDS-PaymentsPortal/Backend && npm install  # Install Node.js dependencies from the correct directory
       - run:
-          name: Run dev server
+          name: Run dev server with npx
           command: |
-            cd ~/APDS-PaymentsPortal/Backend && nodemon
+            cd ~/APDS-PaymentsPortal/Backend && npx nodemon  # Use npx to run nodemon without global install
       - run:
           name: SonarQube Scan
           command: |
