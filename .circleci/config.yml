@@ -25,12 +25,13 @@ jobs:
       - run:
           name: Fix permissions for SonarQube scanner
           command: |
+            sudo chown -R $USER:$USER /usr/local/lib/node_modules/sonar-scanner  # Fix ownership for sonar-scanner
             sudo chmod +x /usr/local/lib/node_modules/sonar-scanner/bin/sonar-scanner  # Fix permissions for SonarQube scanner
 
       - run:
           name: SonarQube Scan
           command: |
-            cd ~/APDS-PaymentsPortal/Backend && sonar-scanner \
+            sudo sonar-scanner \
               -Dsonar.projectKey="Rushil777_APDS-PaymentsPortal" \
               -Dsonar.host.url=$SONAR_HOST_URL \
               -Dsonar.login=$SONAR_TOKEN \
