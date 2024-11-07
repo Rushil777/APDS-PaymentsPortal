@@ -7,40 +7,44 @@ jobs:
     steps:
       - checkout:
           path: ~/APDS-PaymentsPortal  # Explicitly check out to the APDS-PaymentsPortal directory
+          
       - run:
           name: List files to verify checkout
           command: ls -la ~/APDS-PaymentsPortal/Backend  # Verify that package.json is checked out correctly
+
       - run:
           name: Install dependencies
           command: |
-            cd ~/APDS-PaymentsPortal/Backend
-            sudo npm install  # Install dependencies with sudo to avoid permission issues
+            cd ~/APDS-PaymentsPortal/Backend && npm install  # Install Node.js dependencies from the correct directory
+
       - run:
-          name: Fix permissions for node-pre-gyp
+          name: Install SonarQube Scanner
           command: |
-            sudo chmod +x $(npm bin)/node-pre-gyp  # Fix permissions for node-pre-gyp
+            npm install -g sonar-scanner  # Install SonarQube scanner globally
+
       - run:
-          name: Rebuild bcrypt from source
+          name: Run tests with coverage (if using a test framework like Jest)
           command: |
-            cd ~/APDS-PaymentsPortal/Backend
-            sudo npm rebuild bcrypt --build-from-source  # Rebuild bcrypt from source
-      - run:
-          name: Fix permissions for nodemon
-          command: |
-            chmod +x node_modules/.bin/nodemon  # Ensure nodemon has execute permissions
-      - run:
-          name: Run dev server with npx
-          command: |
-            cd ~/APDS-PaymentsPortal/Backend
-            npx nodemon  # Use npx to run nodemon without global install
+            cd ~/APDS-PaymentsPortal/Backend && npm run test -- --coverage  # Run tests and generate coverage report
+
       - run:
           name: SonarQube Scan
           command: |
-            cd ~/APDS-PaymentsPortal/Backend
-            sonar-scanner \
+            cd ~/APDS-PaymentsPortal/Backend && sonar-scanner \
               -Dsonar.projectKey="Rushil777_APDS-PaymentsPortal" \
               -Dsonar.host.url=$SONAR_HOST_URL \
-              -Dsonar.login=$SONAR_TOKEN
+              -Dsonar.login=$SONAR_TOKEN \
+              -Dsonar.javascript.lcov.reportPaths=coverage/lcov-report/index.html  # Optional: Specify coverage report for SonarQube
+
+      - run:
+          name: Fix permissions for nodemon
+          command: |
+            chmod +x node_modules/.bin/nodemon  # Make sure nodemon has execute permissions
+
+      - run:
+          name: Run dev server with npx
+          command: |
+            cd ~/APDS-PaymentsPortal/Backend && npx nodemon  # Use npx to run nodemon without global install
 
 workflows:
   version: 2
