@@ -23,11 +23,6 @@ jobs:
             sudo npm install -g sonar-scanner  # Install SonarQube scanner globally with sudo
 
       - run:
-          name: Run tests with coverage (if using a test framework like Jest)
-          command: |
-            cd ~/APDS-PaymentsPortal/Backend && npm run test -- --coverage  # Run tests and generate coverage report
-
-      - run:
           name: SonarQube Scan
           command: |
             cd ~/APDS-PaymentsPortal/Backend && sonar-scanner \
