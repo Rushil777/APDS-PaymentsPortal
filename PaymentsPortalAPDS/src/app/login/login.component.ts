@@ -54,7 +54,7 @@ export class LoginComponent {
             if (response.role === 'user') {
               this._router.navigateByUrl('/dashboard');
             } else if (response.role === 'employee') {
-              this._router.navigateByUrl('/employee-dashboard');
+              this._router.navigateByUrl('/employee');
             }
           } else {
             this._snackbar.open('ID Number or Password is incorrect', 'Close');
