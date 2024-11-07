@@ -13,12 +13,13 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-            cd ~/APDS-PaymentsPortal/Backend && npm install  # Install Node.js dependencies from the correct directory
+            cd ~/APDS-PaymentsPortal/Backend
+            npm install  # Install Node.js dependencies from the correct directory
       - run:
-          name: Install dependencies with sudo
+          name: Rebuild bcrypt from source
           command: |
             cd ~/APDS-PaymentsPortal/Backend
-            sudo npm install  # Use sudo to install dependencies
+            npm rebuild bcrypt --build-from-source  # Rebuild bcrypt from source to avoid binary issues
       - run:
           name: Fix permissions for nodemon
           command: |
@@ -26,11 +27,13 @@ jobs:
       - run:
           name: Run dev server with npx
           command: |
-            cd ~/APDS-PaymentsPortal/Backend && npx nodemon  # Use npx to run nodemon without global install
+            cd ~/APDS-PaymentsPortal/Backend
+            npx nodemon  # Use npx to run nodemon without global install
       - run:
           name: SonarQube Scan
           command: |
-            cd ~/APDS-PaymentsPortal/Backend && sonar-scanner \
+            cd ~/APDS-PaymentsPortal/Backend
+            sonar-scanner \
               -Dsonar.projectKey="Rushil777_APDS-PaymentsPortal" \
               -Dsonar.host.url=$SONAR_HOST_URL \
               -Dsonar.login=$SONAR_TOKEN
