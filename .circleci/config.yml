@@ -7,7 +7,7 @@ jobs:
     steps:
       - checkout:
           path: ~/APDS-PaymentsPortal  # Explicitly check out to the APDS-PaymentsPortal directory
-          
+
       - run:
           name: List files to verify checkout
           command: ls -la ~/APDS-PaymentsPortal/Backend  # Verify that package.json is checked out correctly
@@ -21,6 +21,11 @@ jobs:
           name: Install SonarQube Scanner
           command: |
             sudo npm install -g sonar-scanner  # Install SonarQube scanner globally with sudo
+
+      - run:
+          name: Fix permissions for SonarQube scanner
+          command: |
+            sudo chmod +x /usr/local/lib/node_modules/sonar-scanner/bin/sonar-scanner  # Fix permissions for SonarQube scanner
 
       - run:
           name: SonarQube Scan
