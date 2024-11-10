@@ -30,7 +30,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
-        <h2>Employee Dashboard</h2>
+        <h2>Payment Verification</h2>
         <table class="table table-bordered">
             <thead>
                 <tr>
@@ -50,10 +50,12 @@
                     <td>{{paymentEntry.swiftCode}}</td>
                     <td>{{paymentEntry.currency}}</td>
                     <td>{{paymentEntry.amount}}</td>
-                    <td>{{paymentEntry.status}}</td>
+                    <td [ngStyle]="{ 'color': paymentEntry.status === 'PENDING' ? 'purple' : paymentEntry.status === 'VERIFIED' ? 'green' : paymentEntry.status === 'DECLINED' ? 'red' : 'black' }">
+                        {{ paymentEntry.status }}
+                      </td>
                     <td>
-                        <button (click)="onVerify(i)"  class="btn btn-success">Verify</button>
-                        <button  class="btn btn-danger">Decline</button>
+                        <button (click)="onVerify(i)"  class="btn btn-success button-spacing">Verify</button>
+                        <button (click)="onDecline(i)" class="btn btn-danger button-spacing">Decline</button>
                     </td>
                 </tr>
             </tbody>

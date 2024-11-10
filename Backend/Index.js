@@ -92,7 +92,7 @@ const outstandingPaymentSchema = new mongoose.Schema({
     amount: { type: String, required: true}, 
     recipientReference: { type: String, required: true}, 
     ownReference: { type: String, required: true},
-    status: { type: String, enum: ['PENDING', 'VERIFIED'], default: 'PENDING'}, 
+    status: { type: String, enum: ['PENDING', 'VERIFIED', 'DECLINED'], default: 'PENDING'}, 
     date: {type: Date}
 });
 const OutstandingPayments = mongoose.model('OutstandingPayments', outstandingPaymentSchema); 
