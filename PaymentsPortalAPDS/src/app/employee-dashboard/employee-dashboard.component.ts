@@ -66,5 +66,29 @@ export class EmployeeDashboardComponent implements OnInit {
       }
     );
   }
+
+  onDecline(index: number): void {
+    const entry = this.paymentEntries[index];
+  
+    // Check if the entry is already verified or declined
+    if (entry.status === 'VERIFIED' || entry.status === 'DECLINED') {
+      alert('This entry cannot be declined.');
+      return;
+    }
+  
+    // Call the API to update the status
+    this.http.put<{ paymentEntry: PaymentEntry }>(`${this.apiUrl}/${entry._id}`, { status: 'DECLINED' }).subscribe(
+      (response) => {
+        // Update the local entry status
+        this.paymentEntries[index].status = response.paymentEntry.status;
+        alert('Payment entry declined successfully.');
+      },
+      (error) => {
+        console.error('Error declining payment entry:', error);
+        alert('Failed to decline payment entry. Please try again later.');
+      }
+    );
+  }
+  
   
 }
