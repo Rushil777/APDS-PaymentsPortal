@@ -5,14 +5,17 @@ jobs:
     docker:
       - image: circleci/node:16  # Use a more recent version of Node.js
     steps:
-      - checkout
+      - checkout  # Check out the code
+      - run:
+          name: Change directory to Backend
+          command: cd Backend  # Navigate to the Backend folder
       - run:
           name: Install npm dependencies
-          command: npm install --save
+          command: npm install --save  # Install dependencies in the Backend folder
       - run:
           name: SonarQube Analysis
           command: |
-            # Run SonarQube analysis with locally installed scanner
+            # Run SonarQube analysis with locally installed scanner in Backend folder
             npx sonarqube-scanner \
               -Dsonar.projectKey=Rushil777_APDS-PaymentsPortal \
               -Dsonar.sources=. \
