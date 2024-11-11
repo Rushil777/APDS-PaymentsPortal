@@ -5,7 +5,7 @@ executors:
     docker:
       - image: cimg/node:18.17  # Use a Docker image with Node.js
     working_directory: ~/APDS-PaymentsPortal/Backend
-     steps:
+    steps:
       - checkout:
           path: ~/APDS-PaymentsPortal
 
