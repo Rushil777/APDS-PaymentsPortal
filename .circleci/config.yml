@@ -3,7 +3,7 @@ version: 2.1
 jobs:
   build_test:
     docker:
-      - image: circleci/node:12
+      - image: circleci/node:16  # Use a more recent version of Node.js
     steps:
       - checkout
       - run:
