@@ -1,0 +1,162 @@
+ <!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <h2 style="padding: 15px; background-color: antiquewhite; color:#7a478d; text-align: center;">Dashboard</h2>
+
+    <title>Form with Table and Submission Area</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background: linear-gradient(135deg, #7a478d, #000000);
+        }
+
+        button {
+            margin-bottom: 20px;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #f2f2f2;
+        }
+
+        table,
+        th,
+        td {
+            border: 1px solid #ddd;
+        }
+
+        th,
+        td {
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        .container {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .popup-form {
+            background-color: #e0e0e0;
+            padding: 20px;
+            border: 1px solid #ccc;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 35%;
+            border-radius: 10px;
+            max-height: 80%;
+            overflow-y: auto;
+        }
+
+        .popup-form h3 {
+            margin-top: 0;
+            color: #333;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .popup-form label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 14px;
+            color: #7a478d;
+        }
+
+        .popup-form input,
+        .popup-form select {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .popup-form button {
+            width: calc(50% - 10px);
+            padding: 10px;
+            margin: 5px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .popup-form .submit-btn {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .popup-form button:hover {
+            opacity: 0.9;
+        }
+
+        .table-container {
+            width: 60%;
+        }
+
+        .submit-button-container {
+            display: flex;
+            justify-content: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <!-- Form Container (on the left) -->
+        <div class="popup-form">
+            <h3>Make Payment:</h3>
+            <label for="idNumber">ID Number</label>
+            <input type="text" name="idNumber" [(ngModel)]="completedPayment.idNumber" placeholder="ID Number">
+            <label for="recipientName">Recipient Name</label>
+            <input type="text" name="recipientName"  [(ngModel)]="completedPayment.recipientName" placeholder="Recipient Name">
+            <label for="bankName">Bank Name Of Recipient</label>
+            <input type="text" name="bankName" [(ngModel)]="completedPayment.bankName" placeholder="Bank Name Of Recipient">
+            <input type="swiftcode" name="swiftCode" [(ngModel)]="completedPayment.swiftCode" placeholder="Recipient Swift Code">
+            <input type="text" name="accountNumber" [(ngModel)]="completedPayment.accountNumber" placeholder="Account Number">
+            <label for="currency">Currency</label>
+            <select type="text" name="currency" [(ngModel)]="completedPayment.currency">
+                <option value="USD">USD - US Dollar</option>
+                <option value="EUR">EUR - Euro</option>
+                <option value="GBP">GBP - British Pound</option>
+                <option value="ZAR">ZAR - South African Rand</option>
+                <option value="JPY">JPY - Japanese Yen</option>
+                <option value="AUD">AUD - Australian Dollar</option>
+                <option value="CAD">CAD - Canadian Dollar</option>
+                <option value="CHF">CHF - Swiss Franc</option>
+                <option value="CNY">CNY - Chinese Yuan</option>
+                <option value="INR">INR - Indian Rupee</option>
+                <!-- Add more currencies as needed -->
+            </select>
+            <input type="text" name="amount" [(ngModel)]="completedPayment.amount" placeholder="Amount">
+            <label for="recipientReference">References</label>
+            <input type="text" name="recipientReference" [(ngModel)]="completedPayment.recipientReference" placeholder="Recipient Reference">
+            <input type="text" name="ownReference" [(ngModel)]="completedPayment.ownReference" placeholder="Own Reference">
+
+            <!-- Centered Submit Button -->
+            <div class="submit-button-container">
+                <button type="submit" (click)="paymentsForm()" class="submit-btn" >Submit</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

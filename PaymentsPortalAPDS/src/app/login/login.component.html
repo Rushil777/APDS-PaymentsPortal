@@ -1,0 +1,43 @@
+<div class="heading">
+    <h2>Log-in to Payments Portal</h2>
+</div>
+<div class="login-container">
+            <!-- REGISTER FORM
+        <form *ngIf="activeForm === 'register'">
+            <h2>REGISTER</h2>
+            <div class="form-group">
+                <input type="text" name="name" [(ngModel)]="registerObj.name" placeholder="Name">
+            </div>
+            <div class="form-group">
+                <input type="text" name="surname" [(ngModel)]="registerObj.surname" placeholder="Surname">
+            </div>
+            <div class="form-group">
+                <input type="idNumber" name="idNumber" [(ngModel)]="registerObj.idNumber" placeholder="ID Number">
+            </div>
+            <div class="form-group">
+                <input type="accountNumber" name="accountNumber" [(ngModel)]="registerObj.accNumber" placeholder="Account Number">
+            </div>
+            <div class="form-group">
+                <input type="password" name="password" [(ngModel)]="registerObj.password" placeholder="Password">
+            </div>
+            <button type="submit" (click)="registerForm()">Register</button>
+            <p (click)= "toggleForm('login')">
+                Already have an Account? <span class="highlighted">LOGIN</span>
+            </p>
+        </form> -->
+        
+            <!-- LOGIN FORM -->
+            <form *ngIf="activeForm === 'login'">
+                <h2>LOG-IN</h2>
+                <div class="form-group">
+                    <input type="idNumber" name="idNumber" [(ngModel)]="loginObj.idNumber" placeholder="Username (ID Number)">
+                </div>
+                <div class="form-group">
+                    <input type="password" name="password" [(ngModel)]="loginObj.password" placeholder="Password">
+                </div>
+                <button type="submit" (click)="loginForm()">Log-in</button>
+                <!-- <p (click)= "toggleForm('register')">
+                    Don't have an Account? <span class="highlighted">REGISTER</span>
+                </p> -->
+            </form>
+</div>

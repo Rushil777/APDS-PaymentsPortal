@@ -1,0 +1,67 @@
+<style>
+    body{
+        font-family: Arial, sans-serif;
+        margin: 20px;
+    }
+    table{
+        width: 100%;
+        border-collapse: collapse;
+        background-color: #f2f2f2;
+    }
+    table, th, td{
+        border: 1px solid #ddd
+    }
+    th, td{
+        padding: 10px;
+        text-align: left;
+    }
+    th{
+        background-color: #f2f2f2;
+    }
+</style>
+
+<h2 style="padding: 15px; background-color: antiquewhite; color:#7a478d; text-align: center;">
+    Employee Dashboard
+</h2>
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <h2>Payment Verification</h2>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>ID Number</th>
+                    <th>Bank Name</th>
+                    <th>SWIFT Code</th>
+                    <th>Currency</th>
+                    <th>Amount</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let paymentEntry of paymentEntries; let i = index">
+                    <td>{{paymentEntry.idNumber}}</td>
+                    <td>{{paymentEntry.bankName}}</td>
+                    <td>{{paymentEntry.swiftCode}}</td>
+                    <td>{{paymentEntry.currency}}</td>
+                    <td>{{paymentEntry.amount}}</td>
+                    <td [ngStyle]="{ 'color': paymentEntry.status === 'PENDING' ? 'purple' : paymentEntry.status === 'VERIFIED' ? 'green' : paymentEntry.status === 'DECLINED' ? 'red' : 'black' }">
+                        {{ paymentEntry.status }}
+                      </td>
+                    <td>
+                        <button (click)="onVerify(i)"  class="btn btn-success button-spacing">Verify</button>
+                        <button (click)="onDecline(i)" class="btn btn-danger button-spacing">Decline</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </body>
+</html>
+
+
+
