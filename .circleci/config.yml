@@ -3,19 +3,17 @@ version: 2.1
 jobs:
   build_test:
     docker:
-      - image: circleci/node:12  # Use a CircleCI Node.js image to run your tests
+      - image: circleci/node:12
     steps:
-      - checkout  # Check out the code
+      - checkout
       - run:
           name: Install npm dependencies
-          command: npm install --save  # Install dependencies
+          command: npm install --save
       - run:
           name: SonarQube Analysis
           command: |
-            # Install SonarQube scanner (CLI)
-            npm install -g sonarqube-scanner
-            # Run SonarQube analysis (replace with your SonarQube project key and server URL)
-            sonar-scanner \
+            # Run SonarQube analysis with locally installed scanner
+            npx sonarqube-scanner \
               -Dsonar.projectKey=Rushil777_APDS-PaymentsPortal \
               -Dsonar.sources=. \
               -Dsonar.host.url=$SONAR_HOST_URL \
