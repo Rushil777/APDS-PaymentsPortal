@@ -5,6 +5,9 @@ executors:
     docker:
       - image: cimg/node:18.17  # Use a Docker image with Node.js
     working_directory: ~/APDS-PaymentsPortal/Backend
+     steps:
+      - checkout:
+          path: ~/APDS-PaymentsPortal
 
 env:
   SONAR_HOST_URL: "https://sonarcloud.io"
