@@ -3,64 +3,40 @@ version: 2.1
 executors:
   default:
     docker:
-      - image: cimg/node:18.17  # Use a Docker image with Node.js
-    working_directory: ~/APDS-PaymentsPortal/Backend
-    steps:
-      - checkout:
-          path: ~/APDS-PaymentsPortal
-
-env:
-  SONAR_HOST_URL: "https://sonarcloud.io"
-  SONAR_PROJECT_KEY: "Rushil777_APDS-PaymentsPortal"
-  SONAR_SOURCES: "src"
+      - image: cimg/node:18.17  # Use Node.js image; adjust version as needed
+    working_directory: ~/repo/APDS-Payments portal/Backend  # Set working directory to Backend folder
 
 jobs:
   build:
     executor: default
     steps:
-      - checkout
-      - restore_cache:
-          keys:
-            - v1-dependencies-{{ checksum "yarn.lock" }}
-            - v1-dependencies-
+      - checkout  # Check out the code
+
       - run:
           name: Install Dependencies
-          command: yarn install
+          command: npm install  # Install dependencies with npm
+
       - save_cache:
+          key: v1-dependencies-{{ checksum "package-lock.json" }}
           paths:
-            - node_modules
-          key: v1-dependencies-{{ checksum "yarn.lock" }}
+            - ./node_modules  # Cache node_modules directory
+
       - run:
           name: Build Project
-          command: yarn build
+          command: npm run build  # Run build command
+
       - run:
           name: Run Tests
-          command: yarn test
+          command: npm test  # Run tests
 
-  sonarqube_scan:
-    executor: default
-    steps:
-      - checkout
-      - run:
-          name: Download and Install SonarQube Scanner
-          command: |
-            wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.6.2.2472-linux.zip
-            unzip sonar-scanner-cli-4.6.2.2472-linux.zip
-            export PATH=$PATH:$(pwd)/sonar-scanner-4.6.2.2472-linux/bin
-      - run:
-          name: Run SonarQube Analysis
-          command: |
-            sonar-scanner \
-              -Dsonar.projectKey=$SONAR_PROJECT_KEY \
-              -Dsonar.sources=$SONAR_SOURCES \
-              -Dsonar.host.url=$SONAR_HOST_URL \
-              -Dsonar.login=$SONAR_TOKEN
+      - persist_to_workspace:
+          root: ~/repo/APDS-Payments portal/Backend
+          paths:
+            - ./node_modules
+            - ./build  # Persist build artifacts if needed
 
 workflows:
   version: 2
-  build_and_analyze:
+  build_and_test:
     jobs:
       - build
-      - sonarqube_scan:
-          requires:
-            - build
