@@ -1,24 +1,44 @@
 version: 2.1
-
 jobs:
-  build_test:
+  build:
     docker:
-      - image: circleci/node:16  # Use a more recent version of Node.js
+      - image: circleci/node:16  # Node.js Docker image
+    working_directory: ~/APDS-PaymentsPortal/Backend  # Set this to where package.json is located
     steps:
-      - checkout  # Check out the code
+      - checkout:
+          path: ~/APDS-PaymentsPortal  # Explicitly check out to the APDS-PaymentsPortal directory
       - run:
-          name: Change directory to Backend
-          command: cd Backend  # Navigate to the Backend folder
+          name: List files to verify checkout
+          command: ls -la ~/APDS-PaymentsPortal/Backend  # Verify that package.json is checked out correctly
       - run:
-          name: Install npm dependencies
-          command: npm install --save  # Install dependencies in the Backend folder
-      - run:
-          name: SonarQube Analysis
+          name: Install dependencies
           command: |
-            # Run SonarQube analysis with locally installed scanner in Backend folder
-            npx sonarqube-scanner \
-              -Dsonar.projectKey=Rushil777_APDS-PaymentsPortal \
-              -Dsonar.sources=. \
+            cd ~/APDS-PaymentsPortal/Backend
+            sudo npm install  # Install dependencies with sudo to avoid permission issues
+      - run:
+          name: Fix permissions for node-pre-gyp
+          command: |
+            sudo chmod +x $(npm bin)/node-pre-gyp  # Fix permissions for node-pre-gyp
+      - run:
+          name: Rebuild bcrypt from source
+          command: |
+            cd ~/APDS-PaymentsPortal/Backend
+            sudo npm rebuild bcrypt --build-from-source  # Rebuild bcrypt from source
+      - run:
+          name: Fix permissions for nodemon
+          command: |
+            chmod +x node_modules/.bin/nodemon  # Ensure nodemon has execute permissions
+      - run:
+          name: Run dev server with npx
+          command: |
+            cd ~/APDS-PaymentsPortal/Backend
+            npx nodemon  # Use npx to run nodemon without global install
+      - run:
+          name: SonarQube Scan
+          command: |
+            cd ~/APDS-PaymentsPortal/Backend
+            sonar-scanner \
+              -Dsonar.projectKey="Rushil777_APDS-PaymentsPortal" \
               -Dsonar.host.url=$SONAR_HOST_URL \
               -Dsonar.login=$SONAR_TOKEN
 
@@ -26,4 +46,4 @@ workflows:
   version: 2
   build_and_test:
     jobs:
-      - build_test
+      - build
