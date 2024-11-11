@@ -15,13 +15,13 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent {
 
-  activeForm : 'login' | 'register' = 'register';
+  activeForm : string = 'login';
 
   registerObj:registerModel = new registerModel();
   loginObj:loginModel = new loginModel();
   constructor(private _snackbar:MatSnackBar, private _router: Router, private http: HttpClient){}
 
-  toggleForm(form : 'login' | 'register')
+  toggleForm(form : string)
   {
     this.activeForm = form;
   }

@@ -2,7 +2,7 @@
     <h2>Log-in to Payments Portal</h2>
 </div>
 <div class="login-container">
-            <!-- REGISTER FORM -->
+            <!-- REGISTER FORM
         <form *ngIf="activeForm === 'register'">
             <h2>REGISTER</h2>
             <div class="form-group">
@@ -25,7 +25,7 @@
                 Already have an Account? <span class="highlighted">LOGIN</span>
             </p>
         </form>
-        
+         -->
             <!-- LOGIN FORM -->
             <form *ngIf="activeForm === 'login'">
                 <h2>LOG-IN</h2>
@@ -36,8 +36,8 @@
                     <input type="password" name="password" [(ngModel)]="loginObj.password" placeholder="Password">
                 </div>
                 <button type="submit" (click)="loginForm()">Log-in</button>
-                <p (click)= "toggleForm('register')">
+                <!-- <p (click)= "toggleForm('register')">
                     Don't have an Account? <span class="highlighted">REGISTER</span>
-                </p>
+                </p> -->
             </form>
 </div>
